@@ -1,0 +1,16 @@
+.__visly_reset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    border: none;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
+    box-sizing: border-box;
+    text-decoration: none;
+    border-width: 0px;
+    border-style: solid;
+    line-height: 1;
+}
