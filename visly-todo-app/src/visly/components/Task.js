@@ -4,7 +4,7 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, selectStyle } from "./_internal_utils";
+import { exists, getStyle } from "./_internal_utils";
 import {
   StaticRootPrimitive,
   RootPrimitive,
@@ -19,8 +19,9 @@ import { Root, InputPrimitive } from "./_internal_input";
 import { CheckboxRoot } from "./_internal_checkbox";
 import { ButtonRoot } from "./_internal_button";
 import { TooltipRoot } from "./_internal_tooltip";
-import { SegmentedControlRoot } from "./_internal_segmented_control";
-import { SegmentedControlButtonRoot } from "./_internal_segmented_control";
+import { PopoverRoot } from "./_internal_popover";
+import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
+import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Task.css";
 const styles = [
   {
@@ -49,6 +50,7 @@ export default function (props) {
           scope: "07492fb8-7ca3-49dc-bb25-e81553625bc0",
           variantPropTypes: [{ type: "boolean", propName: "done" }],
         },
+        addSpacing: false,
       }}
     >
       {(values) => [
@@ -57,6 +59,7 @@ export default function (props) {
             "__visly_reset __visly_e1c79011-686b-4984-8afc-026e3f7fc5c3 __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
           }
           key={"e1c79011-686b-4984-8afc-026e3f7fc5c3"}
+          addSpacing={false}
         >
           {[
             <TextPrimitive

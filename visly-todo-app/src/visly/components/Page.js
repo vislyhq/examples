@@ -4,7 +4,7 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, selectStyle } from "./_internal_utils";
+import { exists, getStyle } from "./_internal_utils";
 import {
   StaticRootPrimitive,
   RootPrimitive,
@@ -19,8 +19,9 @@ import { Root, InputPrimitive } from "./_internal_input";
 import { CheckboxRoot } from "./_internal_checkbox";
 import { ButtonRoot } from "./_internal_button";
 import { TooltipRoot } from "./_internal_tooltip";
-import { SegmentedControlRoot } from "./_internal_segmented_control";
-import { SegmentedControlButtonRoot } from "./_internal_segmented_control";
+import { PopoverRoot } from "./_internal_popover";
+import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
+import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Page.css";
 const styles = [
   {
@@ -44,6 +45,7 @@ export default function (props) {
           scope: "c00dfc9b-d69d-4a89-8df3-6abf3756275b",
           variantPropTypes: [],
         },
+        addSpacing: false,
       }}
     >
       {(values) => [
@@ -52,6 +54,7 @@ export default function (props) {
             "__visly_reset __visly_8cc317ea-def9-42b0-8cdf-d1e3779f5317 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
           }
           key={"8cc317ea-def9-42b0-8cdf-d1e3779f5317"}
+          addSpacing={false}
         >
           {[
             <ContainerPrimitive
@@ -59,6 +62,7 @@ export default function (props) {
                 "__visly_reset __visly_d1155137-b3a0-4048-840d-4544c176a863 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
               }
               key={"d1155137-b3a0-4048-840d-4544c176a863"}
+              addSpacing={false}
             >
               {[
                 <ContainerPrimitive
@@ -66,6 +70,7 @@ export default function (props) {
                     "__visly_reset __visly_e5cdbb46-e722-419c-9bb0-636d263af02e __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
                   }
                   key={"e5cdbb46-e722-419c-9bb0-636d263af02e"}
+                  addSpacing={false}
                 >
                   {[]}
                 </ContainerPrimitive>,
@@ -76,7 +81,11 @@ export default function (props) {
                 "__visly_reset __visly_39e782b9-be80-48c9-ba61-de820f6557d0 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
               }
               key={"39e782b9-be80-48c9-ba61-de820f6557d0"}
-              text={values["39e782b9-be80-48c9-ba61-de820f6557d0"]["text"]}
+              text={getStyle(
+                values,
+                "39e782b9-be80-48c9-ba61-de820f6557d0",
+                "text"
+              )}
             />,
             <SpacerPrimitive
               className={
@@ -89,6 +98,7 @@ export default function (props) {
               className={
                 "__visly_reset __visly_d30e2d06-4400-4a64-ba9e-f9f558971908 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
               }
+              addSpacing={false}
             >
               {exists(props.children) ? props.children : null}
             </ContainerPrimitive>,

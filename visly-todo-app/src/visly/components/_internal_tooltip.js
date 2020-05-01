@@ -4,13 +4,18 @@
 import React, {
   useRef,
   useState,
-  useCallback,
   useEffect,
   createContext,
   useContext,
 } from "react";
 import { createPortal } from "react-dom";
-import { useRootProps, exists, InteractionState } from "./_internal_utils";
+import {
+  useRootProps,
+  exists,
+  InteractionState,
+  useRect,
+  useTimeout,
+} from "./_internal_utils";
 export let Gravity;
 
 (function (Gravity) {
@@ -20,6 +25,17 @@ export let Gravity;
   Gravity[(Gravity["Right"] = 3)] = "Right";
 })(Gravity || (Gravity = {}));
 
+export function gravityStringToEnum(g) {
+  return g === "left"
+    ? Gravity.Left
+    : g === "right"
+    ? Gravity.Right
+    : g === "top"
+    ? Gravity.Top
+    : g === "bottom"
+    ? Gravity.Bottom
+    : Gravity.Bottom;
+}
 const TooltipContext = createContext(null);
 export function TooltipRoot(props) {
   const {
@@ -30,16 +46,7 @@ export function TooltipRoot(props) {
     values,
     style,
   } = useRootProps(props, InteractionState.None);
-  const gravity =
-    props.gravity === "left"
-      ? Gravity.Left
-      : props.gravity === "right"
-      ? Gravity.Right
-      : props.gravity === "top"
-      ? Gravity.Top
-      : props.gravity === "bottom"
-      ? Gravity.Bottom
-      : Gravity.Right;
+  const gravity = gravityStringToEnum(props.gravity);
   const color = values[props.internal.layerId].arrowColor;
   const delayMs = props.delayMs;
   const alwaysShow = injectedProps.alwaysShowTooltip || false;
@@ -74,66 +81,6 @@ export function TooltipRoot(props) {
     </TooltipContext.Provider>
   );
 }
-export const props = [
-  "bottom",
-  "left",
-  "right",
-  "top",
-  "width",
-  "height",
-  "x",
-  "y",
-];
-
-function rectChanged(a, b) {
-  return props.some((prop) => a[prop] !== b[prop]);
-}
-
-export const useRect = (ref, observe = false) => {
-  const [rect, setRect] = useState({
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-    width: 0,
-    height: 0,
-    x: 0,
-    y: 0,
-  });
-  const observeRef = useRef(observe);
-  const didCalcInitialRect = useRef(false);
-  const updateRect = useCallback(() => {
-    if (exists(ref) && exists(ref.current)) {
-      const newRect = ref.current.getBoundingClientRect();
-
-      if (rectChanged(newRect, rect)) {
-        setRect(newRect);
-      }
-    }
-  }, [rect, ref]);
-  useEffect(() => {
-    if (observeRef.current || !didCalcInitialRect.current) {
-      updateRect();
-      didCalcInitialRect.current = true;
-    }
-  });
-  useEffect(() => {
-    observeRef.current = observe;
-  }, [observe]);
-  useEffect(() => {
-    window.addEventListener("resize", updateRect);
-    return () => {
-      window.removeEventListener("resize", updateRect);
-    };
-  }, [rect, updateRect]);
-  return rect;
-};
-export function useTimeout(callback, delay, deps) {
-  return useEffect(() => {
-    const handle = setTimeout(callback, delay);
-    return () => clearTimeout(handle);
-  }, [callback, delay]);
-}
 const MARGIN = 10;
 let isTooltipShowing = false;
 export function Tooltip(props) {
@@ -150,8 +97,8 @@ export function Tooltip(props) {
     return (
       <TooltipImpl
         targetBounds={{
-          x: -32,
-          y: 0,
+          x: 0,
+          y: -22,
           width: 1,
           height: 1,
         }}

@@ -9,11 +9,13 @@ import {
   useEventHandlers,
   combineRef,
 } from "./_internal_utils";
+import { useSpacing } from "./_internal_component_utils";
 export function StaticRootPrimitive(props) {
   const { injectedProps, className, tabIndex, innerRef, values } = useRootProps(
     props,
     InteractionState.None
   );
+  const children = useSpacing(props.addSpacing, props.children(values));
   return (
     <div
       ref={innerRef}
@@ -21,7 +23,7 @@ export function StaticRootPrimitive(props) {
       tabIndex={tabIndex}
       {...injectedProps}
     >
-      {props.children(values)}
+      {children}
     </div>
   );
 }
@@ -50,6 +52,7 @@ export function RootPrimitive(props) {
         MozUserSelect: "none",
       }
     : {};
+  const children = useSpacing(props.addSpacing, props.children(values));
   return (
     <div
       tabIndex={tabIndex}
@@ -61,12 +64,13 @@ export function RootPrimitive(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      {props.children(values)}
+      {children}
     </div>
   );
 }
 export function ContainerPrimitive(props) {
-  return <div className={props.className}>{props.children}</div>;
+  const children = useSpacing(props.addSpacing, props.children);
+  return <div className={props.className}>{children}</div>;
 }
 export function TextPrimitive(props) {
   return <div className={props.className}>{props.text}</div>;

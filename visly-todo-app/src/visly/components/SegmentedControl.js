@@ -4,7 +4,7 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, selectStyle } from "./_internal_utils";
+import { exists, getStyle } from "./_internal_utils";
 import {
   StaticRootPrimitive,
   RootPrimitive,
@@ -19,13 +19,14 @@ import { Root, InputPrimitive } from "./_internal_input";
 import { CheckboxRoot } from "./_internal_checkbox";
 import { ButtonRoot } from "./_internal_button";
 import { TooltipRoot } from "./_internal_tooltip";
-import { SegmentedControlRoot } from "./_internal_segmented_control";
-import { SegmentedControlButtonRoot } from "./_internal_segmented_control";
+import { PopoverRoot } from "./_internal_popover";
+import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
+import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./SegmentedControl.css";
 const styles = [{ type: "default", layers: {} }];
 export default function (props) {
   return (
-    <SegmentedControlRoot
+    <RadioGroupRoot
       {...{
         ...props,
         key: "segmented-control-root",
@@ -37,7 +38,7 @@ export default function (props) {
         },
       }}
     >
-      {(values) => [<>{exists(props.children) ? props.children : null}</>]}
-    </SegmentedControlRoot>
+      {(values) => [exists(props.children) ? props.children : null]}
+    </RadioGroupRoot>
   );
 }

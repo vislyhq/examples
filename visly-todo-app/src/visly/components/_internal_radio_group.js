@@ -9,8 +9,9 @@ import {
   exists,
   InteractionState,
 } from "./_internal_utils";
-const SegmentedControlContext = createContext(null);
-export function SegmentedControlRoot(props) {
+import { useSpacing } from "./_internal_component_utils";
+const RadioGroupContext = createContext(null);
+export function RadioGroupRoot(props) {
   const ref = useRef();
   const { state, handlers } = useEventHandlers({
     ref,
@@ -32,6 +33,7 @@ export function SegmentedControlRoot(props) {
     KhtmlUserSelect: "none",
     MozUserSelect: "none",
   };
+  const children = useSpacing(props.addSpacing, props.children(values));
   return (
     <div
       tabIndex={tabIndex}
@@ -43,21 +45,21 @@ export function SegmentedControlRoot(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      <SegmentedControlContext.Provider
+      <RadioGroupContext.Provider
         value={{
           selected: props.selected,
           onSelect: props.onSelect,
           disabled: state === InteractionState.Disabled,
         }}
       >
-        {props.children(values)}
-      </SegmentedControlContext.Provider>
+        {children}
+      </RadioGroupContext.Provider>
     </div>
   );
 }
-export function SegmentedControlButtonRoot(props) {
+export function RadioGroupButtonRoot(props) {
   const ref = useRef();
-  const { selected, onSelect, disabled } = useContext(SegmentedControlContext);
+  const { selected, onSelect, disabled } = useContext(RadioGroupContext);
   const { state, handlers } = useEventHandlers({
     ref,
     ...props,
