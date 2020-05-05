@@ -7,6 +7,7 @@ import {
   useEventHandlers,
   exists,
   combineRef,
+  getStyleFunc,
 } from "./_internal_utils";
 export function ButtonRoot(props) {
   const ref = useRef();
@@ -42,7 +43,7 @@ export function ButtonRoot(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      {props.children(values)}
+      {props.children(getStyleFunc(values))}
     </button>
   );
 }

@@ -4,7 +4,6 @@
 export const arrowDown: string;
 export const arrowRight: string;
 export const arrowLeft: string;
-export const check: string;
 export const help: string;
 export const arrowUp: string;
 export const info: string;
@@ -17,3 +16,7 @@ export const user: string;
 export const close: string;
 export const upload: string;
 export const plus: string;
+export const vislyCheck: string;
+export const vislyRadioBorder: string;
+export const vislyRadioCenter: string;
+export const vislySelect: string;

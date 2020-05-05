@@ -4,33 +4,30 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
+import { exists } from "./_internal_utils";
+import { TextPrimitive } from "./_internal_primitives";
+import { RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./SegmentedControl.Button.css";
+
 const styles = [
   {
     type: "default",
-    layers: { "segmented-control-button-text": { none: { text: "Text" } } },
+    layers: {
+      "segmented-control-button-text": {
+        none: {
+          text: "Text",
+        },
+      },
+    },
   },
-  { type: "boolean", propName: "selected", layers: {} },
+  {
+    type: "boolean",
+    propName: "selected",
+    layers: {},
+  },
 ];
-export default function (props) {
+
+export default function Button(props) {
   return (
     <RadioGroupButtonRoot
       {...{
@@ -39,15 +36,20 @@ export default function (props) {
         internal: {
           styles,
           layerId: "segmented-control-button-root",
-          scope: "63a98a57-7882-46c5-b56d-5e8a27e4deb5",
-          variantPropTypes: [{ type: "boolean", propName: "selected" }],
+          scope: "DJnp59Npst",
+          variantPropTypes: [
+            {
+              type: "boolean",
+              propName: "selected",
+            },
+          ],
         },
       }}
     >
-      {(values) => [
+      {(getStyle) => [
         <TextPrimitive
           className={
-            "__visly_reset __visly_segmented-control-button-text __visly_scope_63a98a57-7882-46c5-b56d-5e8a27e4deb5"
+            "__visly_reset __visly_segmented-control-button-text __visly_scope_DJnp59Npst"
           }
           key={"segmented-control-button-text"}
           text={exists(props.text) ? props.text : "Text"}

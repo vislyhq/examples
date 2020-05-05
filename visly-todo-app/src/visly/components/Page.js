@@ -4,72 +4,63 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
+import { exists } from "./_internal_utils";
 import {
-  StaticRootPrimitive,
   RootPrimitive,
   SpacerPrimitive,
-  ImagePrimitive,
   TextPrimitive,
   ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
 } from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Page.css";
+
 const styles = [
   {
     type: "default",
     layers: {
-      "39e782b9-be80-48c9-ba61-de820f6557d0": {
-        none: { text: "Visly Todo List" },
+      "89iXNc216g": {
+        none: {
+          text: "Visly Todo List",
+        },
       },
     },
   },
 ];
-export default function (props) {
+
+export default function Page(props) {
   return (
     <RootPrimitive
-      {...{
-        ...props,
-        key: "d9be0de2-ecaf-4228-8355-33dfd8b0339c",
-        internal: {
-          styles,
-          layerId: "d9be0de2-ecaf-4228-8355-33dfd8b0339c",
-          scope: "c00dfc9b-d69d-4a89-8df3-6abf3756275b",
-          variantPropTypes: [],
-        },
-        addSpacing: false,
+      {...props}
+      key="TtVRaoP5z1"
+      internal={{
+        styles,
+        layerId: "TtVRaoP5z1",
+        scope: "QiWhaKESAq",
+        variantPropTypes: [],
       }}
+      addSpacing={false}
     >
-      {(values) => [
+      {(getStyle) => [
         <ContainerPrimitive
           className={
-            "__visly_reset __visly_8cc317ea-def9-42b0-8cdf-d1e3779f5317 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+            "__visly_reset __visly_JP9ihgMFtT __visly_scope_QiWhaKESAq"
           }
-          key={"8cc317ea-def9-42b0-8cdf-d1e3779f5317"}
+          key={"JP9ihgMFtT"}
           addSpacing={false}
         >
           {[
             <ContainerPrimitive
               className={
-                "__visly_reset __visly_d1155137-b3a0-4048-840d-4544c176a863 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+                "__visly_reset __visly_SpUQvirEGw __visly_scope_QiWhaKESAq"
               }
-              key={"d1155137-b3a0-4048-840d-4544c176a863"}
+              key={"SpUQvirEGw"}
               addSpacing={false}
             >
               {[
                 <ContainerPrimitive
                   className={
-                    "__visly_reset __visly_e5cdbb46-e722-419c-9bb0-636d263af02e __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+                    "__visly_reset __visly_VNsgBTjU84 __visly_scope_QiWhaKESAq"
                   }
-                  key={"e5cdbb46-e722-419c-9bb0-636d263af02e"}
+                  key={"VNsgBTjU84"}
                   addSpacing={false}
                 >
                   {[]}
@@ -78,25 +69,21 @@ export default function (props) {
             </ContainerPrimitive>,
             <TextPrimitive
               className={
-                "__visly_reset __visly_39e782b9-be80-48c9-ba61-de820f6557d0 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+                "__visly_reset __visly_89iXNc216g __visly_scope_QiWhaKESAq"
               }
-              key={"39e782b9-be80-48c9-ba61-de820f6557d0"}
-              text={getStyle(
-                values,
-                "39e782b9-be80-48c9-ba61-de820f6557d0",
-                "text"
-              )}
+              key={"89iXNc216g"}
+              text={exists(props.title) ? props.title : "Visly Todo List"}
             />,
             <SpacerPrimitive
               className={
-                "__visly_reset __visly_3c333778-bd60-415b-8890-fd8443619463 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+                "__visly_reset __visly_8SAAvAuvbr __visly_scope_QiWhaKESAq"
               }
-              key={"3c333778-bd60-415b-8890-fd8443619463"}
+              key={"8SAAvAuvbr"}
             />,
             <ContainerPrimitive
-              key={"d30e2d06-4400-4a64-ba9e-f9f558971908"}
+              key={"T4bdLvJ8PZ"}
               className={
-                "__visly_reset __visly_d30e2d06-4400-4a64-ba9e-f9f558971908 __visly_scope_c00dfc9b-d69d-4a89-8df3-6abf3756275b"
+                "__visly_reset __visly_T4bdLvJ8PZ __visly_scope_QiWhaKESAq"
               }
               addSpacing={false}
             >

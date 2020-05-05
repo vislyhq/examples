@@ -4,63 +4,63 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
+import { exists } from "./_internal_utils";
+import { RootPrimitive, ProgressFillPrimitive } from "./_internal_primitives";
 import "./ProgressBar.css";
+
 const styles = [
-  { type: "default", layers: { fill: { none: { progress: 0.5 } } } },
+  {
+    type: "default",
+    layers: {
+      fill: {
+        none: {
+          progress: 0.5,
+        },
+      },
+    },
+  },
   {
     type: "enum",
     propName: "color",
     values: [
-      { propValue: "red", layers: {} },
-      { propValue: "yellow", layers: {} },
-      { propValue: "green", layers: {} },
+      {
+        propValue: "red",
+        layers: {},
+      },
+      {
+        propValue: "yellow",
+        layers: {},
+      },
+      {
+        propValue: "green",
+        layers: {},
+      },
     ],
   },
 ];
-export default function (props) {
+
+export default function ProgressBar(props) {
   return (
     <RootPrimitive
-      {...{
-        ...props,
-        key: "root",
-        internal: {
-          styles,
-          layerId: "root",
-          scope: "b9eb7797-248a-47c6-809a-35ba3ed55557",
-          variantPropTypes: [
-            {
-              type: "enum",
-              propName: "color",
-              propValues: ["red", "yellow", "green"],
-            },
-          ],
-        },
-        addSpacing: false,
+      {...props}
+      key="root"
+      internal={{
+        styles,
+        layerId: "root",
+        scope: "PxaHDZhNKG",
+        variantPropTypes: [
+          {
+            type: "enum",
+            propName: "color",
+            propValues: ["red", "yellow", "green"],
+          },
+        ],
       }}
+      addSpacing={false}
     >
-      {(values) => [
+      {(getStyle) => [
         <ProgressFillPrimitive
-          className={
-            "__visly_reset __visly_fill __visly_scope_b9eb7797-248a-47c6-809a-35ba3ed55557"
-          }
+          className={"__visly_reset __visly_fill __visly_scope_PxaHDZhNKG"}
           key={"fill"}
           value={exists(props.value) ? props.value : 0.5}
         />,

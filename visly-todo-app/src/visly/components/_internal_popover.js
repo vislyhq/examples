@@ -9,6 +9,7 @@ import {
   useEventHandlers,
   useRootProps,
   combineRef,
+  getStyleFunc,
 } from "./_internal_utils";
 import { Gravity, gravityStringToEnum } from "./_internal_tooltip";
 export let Alignment;
@@ -306,7 +307,7 @@ export function PopoverRoot(props) {
       className={className}
       style={style}
     >
-      {props.children(values)}
+      {props.children(getStyleFunc(values))}
     </div>
   );
 

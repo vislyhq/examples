@@ -11,6 +11,7 @@ export interface TextStyle {
 export const headingLarge: TextStyle;
 export const heading: TextStyle;
 export const headingSmall: TextStyle;
-export const body: TextStyle;
 export const label: TextStyle;
 export const labelSmall: TextStyle;
+export const vislyLabel: TextStyle;
+export const vislyLabelSmall: TextStyle;

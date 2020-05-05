@@ -4,40 +4,27 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
+import { exists } from "./_internal_utils";
+import { IconPrimitive } from "./_internal_primitives";
 import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./IconButton.css";
+
 const styles = [
   {
     type: "default",
     layers: {
-      "dde648ad-9f39-4c14-bdd8-149aa61a1cb1": {
+      UQGJpGfRHE: {
         none: {
           role: "img",
-          src: require("../assets/5cd79169-4d72-486a-bd71-20cfa0420bb2@1x.svg"),
+          src: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
           useMask: true,
         },
       },
     },
   },
 ];
-export default function (props) {
+
+export default function IconButton(props) {
   return (
     <ButtonRoot
       {...{
@@ -46,26 +33,22 @@ export default function (props) {
         internal: {
           styles,
           layerId: "root",
-          scope: "d68e561e-25da-42bf-8396-a44e23d68742",
+          scope: "TVfnsEurhN",
           variantPropTypes: [],
         },
       }}
     >
-      {(values) => [
+      {(getStyle) => [
         <IconPrimitive
           className={
-            "__visly_reset __visly_dde648ad-9f39-4c14-bdd8-149aa61a1cb1 __visly_scope_d68e561e-25da-42bf-8396-a44e23d68742"
+            "__visly_reset __visly_UQGJpGfRHE __visly_scope_TVfnsEurhN"
           }
-          key={"dde648ad-9f39-4c14-bdd8-149aa61a1cb1"}
-          useMask={getStyle(
-            values,
-            "dde648ad-9f39-4c14-bdd8-149aa61a1cb1",
-            "useMask"
-          )}
+          key={"UQGJpGfRHE"}
+          useMask={getStyle("UQGJpGfRHE", "useMask")}
           src={
             exists(props.icon)
               ? props.icon
-              : require("../assets/5cd79169-4d72-486a-bd71-20cfa0420bb2@1x.svg")
+              : require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg")
           }
         />,
       ]}

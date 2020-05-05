@@ -4,69 +4,71 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
+import { exists } from "./_internal_utils";
 import {
-  StaticRootPrimitive,
   RootPrimitive,
   SpacerPrimitive,
-  ImagePrimitive,
   TextPrimitive,
   ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
 } from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Task.css";
+import Checkbox from "./Checkbox";
+
 const styles = [
   {
     type: "default",
     layers: {
-      "674df238-9430-4604-93c4-ecc687537eb2": {
-        none: { text: "01/01/2020 15:22" },
+      DksnnuLiou: {
+        none: {
+          text: "01/01/2020 15:22",
+        },
       },
-      "b48f9997-3553-4eda-9fe6-ce42c627fbf6": {
-        none: { text: "This is a task that needs to get done" },
+      PJCCtmZ9Ea: {
+        none: {
+          text: "This is a task that needs to get done",
+        },
       },
     },
   },
-  { type: "boolean", propName: "done", layers: {} },
+  {
+    type: "boolean",
+    propName: "done",
+    layers: {},
+  },
 ];
-import Checkbox from "./Checkbox";
-export default function (props) {
+
+export default function Task(props) {
   return (
     <RootPrimitive
-      {...{
-        ...props,
-        key: "08947f4e-ab23-4154-a81c-a841cfdbb060",
-        internal: {
-          styles,
-          layerId: "08947f4e-ab23-4154-a81c-a841cfdbb060",
-          scope: "07492fb8-7ca3-49dc-bb25-e81553625bc0",
-          variantPropTypes: [{ type: "boolean", propName: "done" }],
-        },
-        addSpacing: false,
+      {...props}
+      key="24TAp68qmf"
+      internal={{
+        styles,
+        layerId: "24TAp68qmf",
+        scope: "uBZih7sxcZ",
+        variantPropTypes: [
+          {
+            type: "boolean",
+            propName: "done",
+          },
+        ],
       }}
+      addSpacing={false}
     >
-      {(values) => [
+      {(getStyle) => [
         <ContainerPrimitive
           className={
-            "__visly_reset __visly_e1c79011-686b-4984-8afc-026e3f7fc5c3 __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
+            "__visly_reset __visly_Ut44Zfa3Po __visly_scope_uBZih7sxcZ"
           }
-          key={"e1c79011-686b-4984-8afc-026e3f7fc5c3"}
+          key={"Ut44Zfa3Po"}
           addSpacing={false}
         >
           {[
             <TextPrimitive
               className={
-                "__visly_reset __visly_b48f9997-3553-4eda-9fe6-ce42c627fbf6 __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
+                "__visly_reset __visly_PJCCtmZ9Ea __visly_scope_uBZih7sxcZ"
               }
-              key={"b48f9997-3553-4eda-9fe6-ce42c627fbf6"}
+              key={"PJCCtmZ9Ea"}
               text={
                 exists(props.title)
                   ? props.title
@@ -75,32 +77,32 @@ export default function (props) {
             />,
             <SpacerPrimitive
               className={
-                "__visly_reset __visly_74444c2b-1fc5-499c-a865-749bf034585d __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
+                "__visly_reset __visly_FMiM7kukGw __visly_scope_uBZih7sxcZ"
               }
-              key={"74444c2b-1fc5-499c-a865-749bf034585d"}
+              key={"FMiM7kukGw"}
             />,
             <TextPrimitive
               className={
-                "__visly_reset __visly_674df238-9430-4604-93c4-ecc687537eb2 __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
+                "__visly_reset __visly_DksnnuLiou __visly_scope_uBZih7sxcZ"
               }
-              key={"674df238-9430-4604-93c4-ecc687537eb2"}
+              key={"DksnnuLiou"}
               text={exists(props.date) ? props.date : "01/01/2020 15:22"}
             />,
           ]}
         </ContainerPrimitive>,
         <SpacerPrimitive
           className={
-            "__visly_reset __visly_02a8ad22-ae8d-4231-b163-9533d272aa0c __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0"
+            "__visly_reset __visly_L3WNqdT8hE __visly_scope_uBZih7sxcZ"
           }
-          key={"02a8ad22-ae8d-4231-b163-9533d272aa0c"}
+          key={"L3WNqdT8hE"}
         />,
         <Checkbox
-          key={"c97852fc-e491-48c6-8227-502b71f0a35f"}
+          key={"RswroRuchz"}
           {...{
             onChange: props["onCheckedChanged"],
             checked: props["checked"],
             className:
-              "__visly_reset __visly_c97852fc-e491-48c6-8227-502b71f0a35f __visly_scope_07492fb8-7ca3-49dc-bb25-e81553625bc0",
+              "__visly_reset __visly_RswroRuchz __visly_scope_uBZih7sxcZ",
           }}
         />,
       ]}

@@ -43,7 +43,7 @@ function App() {
   let visible = tab === "todo" ? todo : tab === "done" ? done : all;
 
   return (
-    <Page>
+    <Page title="Visly todo app">
       <SubmitInput
         placeholder="Get it done!"
         value={title}
@@ -93,7 +93,7 @@ function App() {
 
       <div style={{ height: 10 }} />
 
-      <Tooltip text="All done!" gravity="top">
+      <Tooltip text="All done!" gravity="bottom">
         <Button
           style={{ width: "100%" }}
           text="Clear list"

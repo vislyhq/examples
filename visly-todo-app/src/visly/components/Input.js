@@ -4,32 +4,24 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
+import { exists } from "./_internal_utils";
 import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Input.css";
+
 const styles = [
   {
     type: "default",
-    layers: { input: { none: { placeholderText: "Placeholder" } } },
+    layers: {
+      input: {
+        none: {
+          placeholderText: "Placeholder",
+        },
+      },
+    },
   },
 ];
-export default function (props) {
+
+export default function Input(props) {
   return (
     <Root
       {...{
@@ -38,16 +30,14 @@ export default function (props) {
         internal: {
           styles,
           layerId: "root",
-          scope: "4a6b6905-154a-43b4-a97a-e8e8ae9fa6e0",
+          scope: "ABzyCKqm1K",
           variantPropTypes: [],
         },
       }}
     >
-      {(values) => [
+      {(getStyle) => [
         <InputPrimitive
-          className={
-            "__visly_reset __visly_input __visly_scope_4a6b6905-154a-43b4-a97a-e8e8ae9fa6e0"
-          }
+          className={"__visly_reset __visly_input __visly_scope_ABzyCKqm1K"}
           key={"input"}
           placeholder={
             exists(props.placeholder) ? props.placeholder : "Placeholder"

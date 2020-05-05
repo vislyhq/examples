@@ -4,25 +4,10 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
+import { IconPrimitive } from "./_internal_primitives";
 import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Checkbox.css";
+
 const styles = [
   {
     type: "default",
@@ -36,9 +21,14 @@ const styles = [
       },
     },
   },
-  { type: "boolean", propName: "checked", layers: {} },
+  {
+    type: "boolean",
+    propName: "checked",
+    layers: {},
+  },
 ];
-export default function (props) {
+
+export default function Checkbox(props) {
   return (
     <CheckboxRoot
       {...{
@@ -47,19 +37,22 @@ export default function (props) {
         internal: {
           styles,
           layerId: "root",
-          scope: "ecb6005f-b9fc-4885-b1b9-d16023248ad3",
-          variantPropTypes: [{ type: "boolean", propName: "checked" }],
+          scope: "WELyftQJp5",
+          variantPropTypes: [
+            {
+              type: "boolean",
+              propName: "checked",
+            },
+          ],
         },
       }}
     >
-      {(values) => [
+      {(getStyle) => [
         <IconPrimitive
-          className={
-            "__visly_reset __visly_checkmark __visly_scope_ecb6005f-b9fc-4885-b1b9-d16023248ad3"
-          }
+          className={"__visly_reset __visly_checkmark __visly_scope_WELyftQJp5"}
           key={"checkmark"}
-          useMask={getStyle(values, "checkmark", "useMask")}
-          src={getStyle(values, "checkmark", "src")}
+          useMask={getStyle("checkmark", "useMask")}
+          src={getStyle("checkmark", "src")}
         />,
       ]}
     </CheckboxRoot>

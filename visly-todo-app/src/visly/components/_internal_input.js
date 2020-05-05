@@ -8,6 +8,7 @@ import {
   useEventHandlers,
   InteractionState,
   combineRef,
+  getStyleFunc,
 } from "./_internal_utils";
 const Context = createContext(null);
 export function Root(props) {
@@ -55,7 +56,7 @@ export function Root(props) {
           disabled: state === InteractionState.Disabled,
         }}
       >
-        {props.children(values)}
+        {props.children(getStyleFunc(values))}
       </Context.Provider>
     </div>
   );
@@ -78,8 +79,16 @@ export function InputPrimitive(props) {
     <input
       onFocus={onFocus}
       onBlur={onBlur}
-      onChange={onChange}
-      value={value}
+      onChange={
+        exists(injectedProps) && exists(injectedProps.onChange)
+          ? injectedProps.onChange
+          : onChange
+      }
+      value={
+        exists(injectedProps) && exists(injectedProps.value)
+          ? injectedProps.value
+          : value
+      }
       ref={inputRef}
       placeholder={placeholder}
       disabled={disabled}

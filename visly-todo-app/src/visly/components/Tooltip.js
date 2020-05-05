@@ -4,52 +4,45 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
+import { exists } from "./_internal_utils";
+import { TextPrimitive } from "./_internal_primitives";
 import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Tooltip.css";
+
 const styles = [
   {
     type: "default",
     layers: {
-      "d6372cb3-7255-4394-9c75-9f8f7f08f587": {
-        none: { arrowColor: "rgba(0,0,0,1)" },
+      TTEMhM4fuL: {
+        none: {
+          arrowColor: "rgba(0,0,0,1)",
+        },
       },
-      "tooltip-text": { none: { text: "Tooltip" } },
+      "tooltip-text": {
+        none: {
+          text: "Tooltip",
+        },
+      },
     },
   },
 ];
-export default function (props) {
+
+export default function Tooltip(props) {
   return (
     <TooltipRoot
       {...{
         ...props,
-        key: "d6372cb3-7255-4394-9c75-9f8f7f08f587",
+        key: "TTEMhM4fuL",
         internal: {
           styles,
-          layerId: "d6372cb3-7255-4394-9c75-9f8f7f08f587",
-          scope: "5d018349-0995-4ed4-b343-ac257591bcb5",
+          layerId: "TTEMhM4fuL",
+          scope: "CV7khtZtKf",
           variantPropTypes: [],
         },
-        internalChildren: (values) => [
+        internalChildren: (getStyle) => [
           <TextPrimitive
             className={
-              "__visly_reset __visly_tooltip-text __visly_scope_5d018349-0995-4ed4-b343-ac257591bcb5"
+              "__visly_reset __visly_tooltip-text __visly_scope_CV7khtZtKf"
             }
             key={"tooltip-text"}
             text={exists(props.text) ? props.text : "Tooltip"}

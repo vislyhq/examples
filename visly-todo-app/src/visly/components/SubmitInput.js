@@ -4,69 +4,57 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
-import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
+import { RootPrimitive, ContainerPrimitive } from "./_internal_primitives";
 import "./SubmitInput.css";
-const styles = [{ type: "default", layers: {} }];
 import IconButton from "./IconButton";
 import Input from "./Input";
-export default function (props) {
+
+const styles = [
+  {
+    type: "default",
+    layers: {},
+  },
+];
+
+export default function SubmitInput(props) {
   return (
     <RootPrimitive
-      {...{
-        ...props,
-        key: "c432a5c1-ce27-4fbf-a6f7-0e44ccaa7823",
-        internal: {
-          styles,
-          layerId: "c432a5c1-ce27-4fbf-a6f7-0e44ccaa7823",
-          scope: "b63b42cb-4c3a-43e4-a0e9-96a1db328612",
-          variantPropTypes: [],
-        },
-        addSpacing: false,
+      {...props}
+      key="REBnvNeuyY"
+      internal={{
+        styles,
+        layerId: "REBnvNeuyY",
+        scope: "PWA9uV2g2r",
+        variantPropTypes: [],
       }}
+      addSpacing={false}
     >
-      {(values) => [
+      {(getStyle) => [
         <Input
-          key={"f280b223-c158-470e-bb18-ababbb5f927c"}
+          key={"WwptRNdGtF"}
           {...{
             placeholder: props["placeholder"],
             value: props["value"],
             onChange: props["onChange"],
             className:
-              "__visly_reset __visly_f280b223-c158-470e-bb18-ababbb5f927c __visly_scope_b63b42cb-4c3a-43e4-a0e9-96a1db328612",
+              "__visly_reset __visly_WwptRNdGtF __visly_scope_PWA9uV2g2r",
           }}
         />,
         <ContainerPrimitive
           className={
-            "__visly_reset __visly_ac02595e-1d06-4529-b628-4ef7ffe9e60f __visly_scope_b63b42cb-4c3a-43e4-a0e9-96a1db328612"
+            "__visly_reset __visly_NEwo5DeyNv __visly_scope_PWA9uV2g2r"
           }
-          key={"ac02595e-1d06-4529-b628-4ef7ffe9e60f"}
+          key={"NEwo5DeyNv"}
           addSpacing={false}
         >
           {[
             <IconButton
-              key={"5d47a71f-ff3c-4836-b92a-319a91ff1743"}
+              key={"CX5ZtAKaFS"}
               {...{
                 icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
                 onClick: props["onSubmit"],
                 className:
-                  "__visly_reset __visly_5d47a71f-ff3c-4836-b92a-319a91ff1743 __visly_scope_b63b42cb-4c3a-43e4-a0e9-96a1db328612",
+                  "__visly_reset __visly_CX5ZtAKaFS __visly_scope_PWA9uV2g2r",
               }}
             />,
           ]}

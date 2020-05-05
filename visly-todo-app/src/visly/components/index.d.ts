@@ -148,6 +148,7 @@ export const Page: {
     onKeyDown?: (event: React.KeyboardEvent<any>) => void;
     disabled?: boolean;
     children?: React.ReactNode | React.ReactNode[];
+    title?: string;
     onClick?: (event: MouseEvent) => any;
   }): JSX.Element;
 };

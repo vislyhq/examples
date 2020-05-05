@@ -5,6 +5,11 @@ import { useMemo, useState, useRef, useCallback, useEffect } from "react";
 export function exists(val) {
   return !(val === undefined || val === null);
 }
+export function getStyleFunc(values) {
+  return (layerId, styleName) => {
+    return getStyle(values, layerId, styleName);
+  };
+}
 export function getStyle(values, layerId, styleName) {
   if (exists(values[layerId])) {
     return values[layerId][styleName];

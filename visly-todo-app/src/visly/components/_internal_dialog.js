@@ -8,6 +8,7 @@ import {
   useRootProps,
   combineRef,
   exists,
+  getStyleFunc,
 } from "./_internal_utils";
 export function DialogRoot(props) {
   const ref = useRef();
@@ -39,7 +40,7 @@ export function DialogRoot(props) {
         className={className}
         style={{ ...style, padding: 100 }}
       >
-        {props.children(values)}
+        {props.children(getStyleFunc(values))}
       </div>
     );
   }
@@ -70,7 +71,7 @@ export function DialogRoot(props) {
             props.onClose();
           }}
         >
-          {props.children(values)}
+          {props.children(getStyleFunc(values))}
         </div>,
         document.body
       )

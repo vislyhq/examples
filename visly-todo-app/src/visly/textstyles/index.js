@@ -3,43 +3,50 @@
 /* eslint-disable */
 require("./fonts.css");
 
-module.exports.headingLarge = {
-  fontFamily: "Whyte",
+export const headingLarge = {
+  fontFamily: "Visly Roboto",
   fontSize: "32px",
   fontWeight: 700,
   fontStyle: "normal",
   lineHeight: "48px",
 };
-module.exports.heading = {
-  fontFamily: "Inter",
+export const heading = {
+  fontFamily: "Visly Roboto",
   fontSize: "18px",
-  fontWeight: 600,
+  fontWeight: 700,
   fontStyle: "normal",
   lineHeight: "26px",
 };
-module.exports.headingSmall = {
-  fontFamily: "Whyte",
+export const headingSmall = {
+  fontFamily: "Visly Roboto",
   fontSize: "16px",
   fontWeight: 400,
   fontStyle: "normal",
   lineHeight: "20px",
 };
-module.exports.body = {
-  fontFamily: "Whyte",
-  fontSize: "14px",
-  fontWeight: 400,
-  fontStyle: "normal",
-  lineHeight: "20px",
-};
-module.exports.label = {
-  fontFamily: "Whyte",
+export const label = {
+  fontFamily: "Visly Roboto",
   fontSize: "16px",
   fontWeight: 700,
   fontStyle: "normal",
   lineHeight: "20px",
 };
-module.exports.labelSmall = {
-  fontFamily: "Whyte",
+export const labelSmall = {
+  fontFamily: "Visly Roboto",
+  fontSize: "12px",
+  fontWeight: 400,
+  fontStyle: "normal",
+  lineHeight: "16px",
+};
+export const vislyLabel = {
+  fontFamily: "Visly Roboto",
+  fontSize: "14px",
+  fontWeight: 400,
+  fontStyle: "normal",
+  lineHeight: "20px",
+};
+export const vislyLabelSmall = {
+  fontFamily: "Visly Roboto",
   fontSize: "12px",
   fontWeight: 400,
   fontStyle: "normal",

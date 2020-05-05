@@ -4,34 +4,25 @@
 import "../textstyles/fonts.css";
 import "./reset.css";
 import React from "react";
-import { exists, getStyle } from "./_internal_utils";
-import {
-  StaticRootPrimitive,
-  RootPrimitive,
-  SpacerPrimitive,
-  ImagePrimitive,
-  TextPrimitive,
-  ContainerPrimitive,
-  IconPrimitive,
-  ProgressFillPrimitive,
-} from "./_internal_primitives";
-import { Root, InputPrimitive } from "./_internal_input";
-import { CheckboxRoot } from "./_internal_checkbox";
+import { exists } from "./_internal_utils";
+import { TextPrimitive } from "./_internal_primitives";
 import { ButtonRoot } from "./_internal_button";
-import { TooltipRoot } from "./_internal_tooltip";
-import { PopoverRoot } from "./_internal_popover";
-import { DialogRoot, DialogContainerPrimitive } from "./_internal_dialog";
-import { RadioGroupRoot, RadioGroupButtonRoot } from "./_internal_radio_group";
 import "./Button.css";
+
 const styles = [
   {
     type: "default",
     layers: {
-      "fddedaf3-e944-4678-8e09-2606f7d0390a": { none: { text: "Button" } },
+      YMF63gWc8A: {
+        none: {
+          text: "Button",
+        },
+      },
     },
   },
 ];
-export default function (props) {
+
+export default function Button(props) {
   return (
     <ButtonRoot
       {...{
@@ -40,17 +31,17 @@ export default function (props) {
         internal: {
           styles,
           layerId: "root",
-          scope: "e15d6bca-c0c9-4ab0-b856-12d569ad0524",
+          scope: "Uq5q7Rg3yu",
           variantPropTypes: [],
         },
       }}
     >
-      {(values) => [
+      {(getStyle) => [
         <TextPrimitive
           className={
-            "__visly_reset __visly_fddedaf3-e944-4678-8e09-2606f7d0390a __visly_scope_e15d6bca-c0c9-4ab0-b856-12d569ad0524"
+            "__visly_reset __visly_YMF63gWc8A __visly_scope_Uq5q7Rg3yu"
           }
-          key={"fddedaf3-e944-4678-8e09-2606f7d0390a"}
+          key={"YMF63gWc8A"}
           text={exists(props.text) ? props.text : "Button"}
         />,
       ]}

@@ -8,6 +8,7 @@ import {
   useRootProps,
   exists,
   InteractionState,
+  getStyleFunc,
 } from "./_internal_utils";
 import { useSpacing } from "./_internal_component_utils";
 const RadioGroupContext = createContext(null);
@@ -33,7 +34,10 @@ export function RadioGroupRoot(props) {
     KhtmlUserSelect: "none",
     MozUserSelect: "none",
   };
-  const children = useSpacing(props.addSpacing, props.children(values));
+  const children = useSpacing(
+    props.addSpacing,
+    props.children(getStyleFunc(values))
+  );
   return (
     <div
       tabIndex={tabIndex}
@@ -94,7 +98,7 @@ export function RadioGroupButtonRoot(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      {props.children(values)}
+      {props.children(getStyleFunc(values))}
     </div>
   );
 }
