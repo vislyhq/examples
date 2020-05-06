@@ -29,37 +29,33 @@ export default function SubmitInput(props) {
       }}
       addSpacing={false}
     >
-      {(getStyle) => [
-        <Input
-          key={"WwptRNdGtF"}
-          {...{
-            placeholder: props["placeholder"],
-            value: props["value"],
-            onChange: props["onChange"],
-            className:
-              "__visly_reset __visly_WwptRNdGtF __visly_scope_PWA9uV2g2r",
-          }}
-        />,
-        <ContainerPrimitive
-          className={
-            "__visly_reset __visly_NEwo5DeyNv __visly_scope_PWA9uV2g2r"
-          }
-          key={"NEwo5DeyNv"}
-          addSpacing={false}
-        >
-          {[
-            <IconButton
-              key={"CX5ZtAKaFS"}
-              {...{
-                icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
-                onClick: props["onSubmit"],
-                className:
-                  "__visly_reset __visly_CX5ZtAKaFS __visly_scope_PWA9uV2g2r",
-              }}
-            />,
-          ]}
-        </ContainerPrimitive>,
-      ]}
+      <Input
+        key={"WwptRNdGtF"}
+        {...{
+          placeholder: props["placeholder"],
+          value: props["value"],
+          onChange: props["onChange"],
+          className:
+            "__visly_reset __visly_WwptRNdGtF __visly_scope_PWA9uV2g2r",
+        }}
+      />
+      <ContainerPrimitive
+        className={"__visly_reset __visly_NEwo5DeyNv __visly_scope_PWA9uV2g2r"}
+        key={"NEwo5DeyNv"}
+        addSpacing={false}
+      >
+        {
+          <IconButton
+            key={"CX5ZtAKaFS"}
+            {...{
+              icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
+              onClick: props["onSubmit"],
+              className:
+                "__visly_reset __visly_CX5ZtAKaFS __visly_scope_PWA9uV2g2r",
+            }}
+          />
+        }
+      </ContainerPrimitive>
     </RootPrimitive>
   );
 }

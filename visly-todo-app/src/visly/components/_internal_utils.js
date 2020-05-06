@@ -10,6 +10,13 @@ export function getStyleFunc(values) {
     return getStyle(values, layerId, styleName);
   };
 }
+export function renderChildren(children, values) {
+  if (typeof children === "function") {
+    return children(getStyleFunc(values));
+  }
+
+  return children;
+}
 export function getStyle(values, layerId, styleName) {
   if (exists(values[layerId])) {
     return values[layerId][styleName];
@@ -350,32 +357,25 @@ export function useEventHandlers(props) {
   const { state, setFocused, setHovered, setPressed } = useInteractionState(
     props
   );
+  const isInside = useCallback(
+    (e) => {
+      if (!exists(props.ref)) return false;
+      let parent = e.target;
 
-  if (state === InteractionState.Disabled) {
-    return {
-      state,
-      handlers: {},
-    };
-  }
+      while (exists(parent)) {
+        if (parent === props.ref.current) {
+          return true;
+        }
 
-  function isInside(e) {
-    if (!exists(props.ref)) return false;
-    let parent = e.target;
-
-    while (exists(parent)) {
-      if (parent === props.ref.current) {
-        return true;
+        parent = parent.parentNode;
       }
 
-      parent = parent.parentNode;
-    }
-
-    return false;
-  }
-
-  return {
-    state,
-    handlers: {
+      return false;
+    },
+    [props]
+  );
+  const handlers = useMemo(
+    () => ({
       onKeyDown: props.onKeyDown,
       onKeyUp: props.onKeyUp,
       onMouseEnter: (e) => setHovered(isInside(e)),
@@ -398,7 +398,22 @@ export function useEventHandlers(props) {
         }
       },
       onClick: props.onClick,
-    },
+    }),
+    [props, isInside, setFocused, setPressed, setHovered]
+  );
+
+  if (state === InteractionState.Disabled) {
+    return {
+      state,
+      handlers: {},
+      setFocused: () => {},
+    };
+  }
+
+  return {
+    state,
+    setFocused,
+    handlers,
   };
 }
 export const props = [
@@ -461,3 +476,4 @@ export function useTimeout(callback, delay, deps) {
     return () => clearTimeout(handle);
   }, [callback, delay]);
 }
+export const noop = () => {};

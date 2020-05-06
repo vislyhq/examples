@@ -55,57 +55,49 @@ export default function Task(props) {
       }}
       addSpacing={false}
     >
-      {(getStyle) => [
-        <ContainerPrimitive
+      <ContainerPrimitive
+        className={"__visly_reset __visly_Ut44Zfa3Po __visly_scope_uBZih7sxcZ"}
+        key={"Ut44Zfa3Po"}
+        addSpacing={false}
+      >
+        <TextPrimitive
           className={
-            "__visly_reset __visly_Ut44Zfa3Po __visly_scope_uBZih7sxcZ"
+            "__visly_reset __visly_PJCCtmZ9Ea __visly_scope_uBZih7sxcZ"
           }
-          key={"Ut44Zfa3Po"}
-          addSpacing={false}
-        >
-          {[
-            <TextPrimitive
-              className={
-                "__visly_reset __visly_PJCCtmZ9Ea __visly_scope_uBZih7sxcZ"
-              }
-              key={"PJCCtmZ9Ea"}
-              text={
-                exists(props.title)
-                  ? props.title
-                  : "This is a task that needs to get done"
-              }
-            />,
-            <SpacerPrimitive
-              className={
-                "__visly_reset __visly_FMiM7kukGw __visly_scope_uBZih7sxcZ"
-              }
-              key={"FMiM7kukGw"}
-            />,
-            <TextPrimitive
-              className={
-                "__visly_reset __visly_DksnnuLiou __visly_scope_uBZih7sxcZ"
-              }
-              key={"DksnnuLiou"}
-              text={exists(props.date) ? props.date : "01/01/2020 15:22"}
-            />,
-          ]}
-        </ContainerPrimitive>,
+          key={"PJCCtmZ9Ea"}
+          text={
+            exists(props.title)
+              ? props.title
+              : "This is a task that needs to get done"
+          }
+        />
         <SpacerPrimitive
           className={
-            "__visly_reset __visly_L3WNqdT8hE __visly_scope_uBZih7sxcZ"
+            "__visly_reset __visly_FMiM7kukGw __visly_scope_uBZih7sxcZ"
           }
-          key={"L3WNqdT8hE"}
-        />,
-        <Checkbox
-          key={"RswroRuchz"}
-          {...{
-            onChange: props["onCheckedChanged"],
-            checked: props["checked"],
-            className:
-              "__visly_reset __visly_RswroRuchz __visly_scope_uBZih7sxcZ",
-          }}
-        />,
-      ]}
+          key={"FMiM7kukGw"}
+        />
+        <TextPrimitive
+          className={
+            "__visly_reset __visly_DksnnuLiou __visly_scope_uBZih7sxcZ"
+          }
+          key={"DksnnuLiou"}
+          text={exists(props.date) ? props.date : "01/01/2020 15:22"}
+        />
+      </ContainerPrimitive>
+      <SpacerPrimitive
+        className={"__visly_reset __visly_L3WNqdT8hE __visly_scope_uBZih7sxcZ"}
+        key={"L3WNqdT8hE"}
+      />
+      <Checkbox
+        key={"RswroRuchz"}
+        {...{
+          onChange: props["onCheckedChanged"],
+          checked: props["checked"],
+          className:
+            "__visly_reset __visly_RswroRuchz __visly_scope_uBZih7sxcZ",
+        }}
+      />
     </RootPrimitive>
   );
 }

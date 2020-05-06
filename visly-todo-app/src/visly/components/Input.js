@@ -24,26 +24,22 @@ const styles = [
 export default function Input(props) {
   return (
     <Root
-      {...{
-        ...props,
-        key: "root",
-        internal: {
-          styles,
-          layerId: "root",
-          scope: "ABzyCKqm1K",
-          variantPropTypes: [],
-        },
+      {...props}
+      key="root"
+      internal={{
+        styles,
+        layerId: "root",
+        scope: "ABzyCKqm1K",
+        variantPropTypes: [],
       }}
     >
-      {(getStyle) => [
-        <InputPrimitive
-          className={"__visly_reset __visly_input __visly_scope_ABzyCKqm1K"}
-          key={"input"}
-          placeholder={
-            exists(props.placeholder) ? props.placeholder : "Placeholder"
-          }
-        />,
-      ]}
+      <InputPrimitive
+        className={"__visly_reset __visly_input __visly_scope_ABzyCKqm1K"}
+        key={"input"}
+        placeholder={
+          exists(props.placeholder) ? props.placeholder : "Placeholder"
+        }
+      />
     </Root>
   );
 }

@@ -25,26 +25,20 @@ const styles = [
 export default function Button(props) {
   return (
     <ButtonRoot
-      {...{
-        ...props,
-        key: "root",
-        internal: {
-          styles,
-          layerId: "root",
-          scope: "Uq5q7Rg3yu",
-          variantPropTypes: [],
-        },
+      {...props}
+      key="root"
+      internal={{
+        styles,
+        layerId: "root",
+        scope: "Uq5q7Rg3yu",
+        variantPropTypes: [],
       }}
     >
-      {(getStyle) => [
-        <TextPrimitive
-          className={
-            "__visly_reset __visly_YMF63gWc8A __visly_scope_Uq5q7Rg3yu"
-          }
-          key={"YMF63gWc8A"}
-          text={exists(props.text) ? props.text : "Button"}
-        />,
-      ]}
+      <TextPrimitive
+        className={"__visly_reset __visly_YMF63gWc8A __visly_scope_Uq5q7Rg3yu"}
+        key={"YMF63gWc8A"}
+        text={exists(props.text) ? props.text : "Button"}
+      />
     </ButtonRoot>
   );
 }

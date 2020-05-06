@@ -30,31 +30,27 @@ const styles = [
 export default function Button(props) {
   return (
     <RadioGroupButtonRoot
-      {...{
-        ...props,
-        key: "segmented-control-button-root",
-        internal: {
-          styles,
-          layerId: "segmented-control-button-root",
-          scope: "DJnp59Npst",
-          variantPropTypes: [
-            {
-              type: "boolean",
-              propName: "selected",
-            },
-          ],
-        },
+      {...props}
+      key="segmented-control-button-root"
+      internal={{
+        styles,
+        layerId: "segmented-control-button-root",
+        scope: "DJnp59Npst",
+        variantPropTypes: [
+          {
+            type: "boolean",
+            propName: "selected",
+          },
+        ],
       }}
     >
-      {(getStyle) => [
-        <TextPrimitive
-          className={
-            "__visly_reset __visly_segmented-control-button-text __visly_scope_DJnp59Npst"
-          }
-          key={"segmented-control-button-text"}
-          text={exists(props.text) ? props.text : "Text"}
-        />,
-      ]}
+      <TextPrimitive
+        className={
+          "__visly_reset __visly_segmented-control-button-text __visly_scope_DJnp59Npst"
+        }
+        key={"segmented-control-button-text"}
+        text={exists(props.text) ? props.text : "Text"}
+      />
     </RadioGroupButtonRoot>
   );
 }

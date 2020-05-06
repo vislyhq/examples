@@ -9,7 +9,7 @@ import {
   useEventHandlers,
   useRootProps,
   combineRef,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 import { Gravity, gravityStringToEnum } from "./_internal_tooltip";
 export let Alignment;
@@ -226,8 +226,7 @@ export function getPopoverPosition(targetRect, popoverRect, strategy) {
     strategy,
   });
 }
-
-function Popover(props) {
+export function Popover(props) {
   const popoverRef = useRef();
   const popoverRect = useRect(popoverRef, true);
   const [popoverPosition, setPopoverPosition] = useState(null);
@@ -279,7 +278,6 @@ function Popover(props) {
     </div>
   );
 }
-
 export function PopoverRoot(props) {
   const ref = useRef();
   const { state } = useEventHandlers({
@@ -307,7 +305,7 @@ export function PopoverRoot(props) {
       className={className}
       style={style}
     >
-      {props.children(getStyleFunc(values))}
+      {renderChildren(props.children, values)}
     </div>
   );
 

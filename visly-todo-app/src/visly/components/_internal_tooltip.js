@@ -15,7 +15,7 @@ import {
   InteractionState,
   useRect,
   useTimeout,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 export let Gravity;
 
@@ -73,7 +73,7 @@ export function TooltipRoot(props) {
             className={className}
             style={style}
           >
-            {props.internalChildren(getStyleFunc(values))}
+            {renderChildren(props.internalChildren, values)}
           </div>
         }
       >

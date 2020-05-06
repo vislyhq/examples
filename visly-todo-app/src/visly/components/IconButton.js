@@ -27,18 +27,16 @@ const styles = [
 export default function IconButton(props) {
   return (
     <ButtonRoot
-      {...{
-        ...props,
-        key: "root",
-        internal: {
-          styles,
-          layerId: "root",
-          scope: "TVfnsEurhN",
-          variantPropTypes: [],
-        },
+      {...props}
+      key="root"
+      internal={{
+        styles,
+        layerId: "root",
+        scope: "TVfnsEurhN",
+        variantPropTypes: [],
       }}
     >
-      {(getStyle) => [
+      {(getStyle) => (
         <IconPrimitive
           className={
             "__visly_reset __visly_UQGJpGfRHE __visly_scope_TVfnsEurhN"
@@ -50,8 +48,8 @@ export default function IconButton(props) {
               ? props.icon
               : require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg")
           }
-        />,
-      ]}
+        />
+      )}
     </ButtonRoot>
   );
 }

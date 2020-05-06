@@ -31,30 +31,28 @@ const styles = [
 export default function Checkbox(props) {
   return (
     <CheckboxRoot
-      {...{
-        ...props,
-        key: "root",
-        internal: {
-          styles,
-          layerId: "root",
-          scope: "WELyftQJp5",
-          variantPropTypes: [
-            {
-              type: "boolean",
-              propName: "checked",
-            },
-          ],
-        },
+      {...props}
+      key="root"
+      internal={{
+        styles,
+        layerId: "root",
+        scope: "WELyftQJp5",
+        variantPropTypes: [
+          {
+            type: "boolean",
+            propName: "checked",
+          },
+        ],
       }}
     >
-      {(getStyle) => [
+      {(getStyle) => (
         <IconPrimitive
           className={"__visly_reset __visly_checkmark __visly_scope_WELyftQJp5"}
           key={"checkmark"}
           useMask={getStyle("checkmark", "useMask")}
           src={getStyle("checkmark", "src")}
-        />,
-      ]}
+        />
+      )}
     </CheckboxRoot>
   );
 }

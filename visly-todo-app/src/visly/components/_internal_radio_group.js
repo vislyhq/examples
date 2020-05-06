@@ -8,10 +8,10 @@ import {
   useRootProps,
   exists,
   InteractionState,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 import { useSpacing } from "./_internal_component_utils";
-const RadioGroupContext = createContext(null);
+export const RadioGroupContext = createContext(null);
 export function RadioGroupRoot(props) {
   const ref = useRef();
   const { state, handlers } = useEventHandlers({
@@ -36,7 +36,7 @@ export function RadioGroupRoot(props) {
   };
   const children = useSpacing(
     props.addSpacing,
-    props.children(getStyleFunc(values))
+    renderChildren(props.children, values)
   );
   return (
     <div
@@ -98,7 +98,7 @@ export function RadioGroupButtonRoot(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      {props.children(getStyleFunc(values))}
+      {renderChildren(props.children, values)}
     </div>
   );
 }

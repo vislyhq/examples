@@ -8,7 +8,7 @@ import {
   useRootProps,
   combineRef,
   exists,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 export function DialogRoot(props) {
   const ref = useRef();
@@ -40,7 +40,7 @@ export function DialogRoot(props) {
         className={className}
         style={{ ...style, padding: 100 }}
       >
-        {props.children(getStyleFunc(values))}
+        {renderChildren(props.children, values)}
       </div>
     );
   }
@@ -65,13 +65,14 @@ export function DialogRoot(props) {
             left: 0,
             right: 0,
             bottom: 0,
+            zIndex: 1000,
           }}
           onClick={(e) => {
             e.stopPropagation();
             props.onClose();
           }}
         >
-          {props.children(getStyleFunc(values))}
+          {renderChildren(props.children, values)}
         </div>,
         document.body
       )

@@ -7,7 +7,7 @@ import {
   useRootProps,
   useEventHandlers,
   combineRef,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 export function CheckboxRoot(props) {
   const ref = useRef();
@@ -52,7 +52,7 @@ export function CheckboxRoot(props) {
       className={className}
       style={{ ...noSelectStyles, ...style }}
     >
-      {props.children(getStyleFunc(values))}
+      {renderChildren(props.children, values)}
     </div>
   );
 }

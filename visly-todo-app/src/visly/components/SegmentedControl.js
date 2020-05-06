@@ -18,19 +18,17 @@ const styles = [
 export default function SegmentedControl(props) {
   return (
     <RadioGroupRoot
-      {...{
-        ...props,
-        key: "segmented-control-root",
-        addSpacing: false,
-        internal: {
-          styles,
-          layerId: "segmented-control-root",
-          scope: "segmented-control-root",
-          variantPropTypes: [],
-        },
+      {...props}
+      key="segmented-control-root"
+      addSpacing={false}
+      internal={{
+        styles,
+        layerId: "segmented-control-root",
+        scope: "segmented-control-root",
+        variantPropTypes: [],
       }}
     >
-      {(getStyle) => [exists(props.children) ? props.children : null]}
+      {(getStyle) => (exists(props.children) ? props.children : null)}
     </RadioGroupRoot>
   );
 }

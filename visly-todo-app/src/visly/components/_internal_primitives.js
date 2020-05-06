@@ -8,7 +8,7 @@ import {
   useRootProps,
   useEventHandlers,
   combineRef,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 import { useSpacing } from "./_internal_component_utils";
 export function StaticRootPrimitive(props) {
@@ -18,7 +18,7 @@ export function StaticRootPrimitive(props) {
   );
   const children = useSpacing(
     props.addSpacing,
-    props.children(getStyleFunc(values))
+    renderChildren(props.children, values)
   );
   return (
     <div
@@ -58,7 +58,7 @@ export function RootPrimitive(props) {
     : {};
   const children = useSpacing(
     props.addSpacing,
-    props.children(getStyleFunc(values))
+    renderChildren(props.children, values)
   );
   return (
     <div

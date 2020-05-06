@@ -8,7 +8,7 @@ import {
   useEventHandlers,
   InteractionState,
   combineRef,
-  getStyleFunc,
+  renderChildren,
 } from "./_internal_utils";
 const Context = createContext(null);
 export function Root(props) {
@@ -56,7 +56,7 @@ export function Root(props) {
           disabled: state === InteractionState.Disabled,
         }}
       >
-        {props.children(getStyleFunc(values))}
+        {renderChildren(props.children, values)}
       </Context.Provider>
     </div>
   );
