@@ -40,22 +40,18 @@ export default function Page(props) {
       addSpacing={false}
     >
       <ContainerPrimitive
-        className={"__visly_reset __visly_JP9ihgMFtT __visly_scope_QiWhaKESAq"}
+        className={"__visly_reset __visly_scope_QiWhaKESAq_JP9ihgMFtT"}
         key={"JP9ihgMFtT"}
         addSpacing={false}
       >
         <ContainerPrimitive
-          className={
-            "__visly_reset __visly_SpUQvirEGw __visly_scope_QiWhaKESAq"
-          }
+          className={"__visly_reset __visly_scope_QiWhaKESAq_SpUQvirEGw"}
           key={"SpUQvirEGw"}
           addSpacing={false}
         >
           {
             <ContainerPrimitive
-              className={
-                "__visly_reset __visly_VNsgBTjU84 __visly_scope_QiWhaKESAq"
-              }
+              className={"__visly_reset __visly_scope_QiWhaKESAq_VNsgBTjU84"}
               key={"VNsgBTjU84"}
               addSpacing={false}
             >
@@ -64,23 +60,17 @@ export default function Page(props) {
           }
         </ContainerPrimitive>
         <TextPrimitive
-          className={
-            "__visly_reset __visly_89iXNc216g __visly_scope_QiWhaKESAq"
-          }
+          className={"__visly_reset __visly_scope_QiWhaKESAq_89iXNc216g"}
           key={"89iXNc216g"}
           text={exists(props.title) ? props.title : "Visly Todo List"}
         />
         <SpacerPrimitive
-          className={
-            "__visly_reset __visly_8SAAvAuvbr __visly_scope_QiWhaKESAq"
-          }
+          className={"__visly_reset __visly_scope_QiWhaKESAq_8SAAvAuvbr"}
           key={"8SAAvAuvbr"}
         />
         <ContainerPrimitive
           key={"T4bdLvJ8PZ"}
-          className={
-            "__visly_reset __visly_T4bdLvJ8PZ __visly_scope_QiWhaKESAq"
-          }
+          className={"__visly_reset __visly_scope_QiWhaKESAq_T4bdLvJ8PZ"}
           addSpacing={false}
         >
           {exists(props.children) ? props.children : null}

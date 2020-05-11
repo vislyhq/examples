@@ -226,6 +226,28 @@ export function getPopoverPosition(targetRect, popoverRect, strategy) {
     strategy,
   });
 }
+
+function ClickableBackdrop(props) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        props.onClick();
+      }}
+    >
+      {props.children}
+    </div>
+  );
+}
+
 export function Popover(props) {
   const popoverRef = useRef();
   const popoverRect = useRect(popoverRef, true);
@@ -247,35 +269,23 @@ export function Popover(props) {
     });
   }, [popoverRect, props.targetRect, props.position]);
   const [rect] = exists(popoverPosition) ? popoverPosition : [null];
-  return (
+  const Content = exists(rect) ? (
     <div
       style={{
-        display: "flex",
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        left: rect.left,
+        top: rect.top,
       }}
-      onClick={(e) => {
-        e.stopPropagation();
-        props.onClose();
-      }}
+      onClick={(e) => e.stopPropagation()}
+      ref={popoverRef}
     >
-      {exists(rect) ? (
-        <div
-          style={{
-            position: "absolute",
-            left: rect.left,
-            top: rect.top,
-          }}
-          onClick={(e) => e.stopPropagation()}
-          ref={popoverRef}
-        >
-          {props.popover}
-        </div>
-      ) : null}
+      {props.popover}
     </div>
+  ) : null;
+  return exists(props.onClose) && exists(Content) ? (
+    <ClickableBackdrop onClick={props.onClose}>{Content}</ClickableBackdrop>
+  ) : (
+    Content
   );
 }
 export function PopoverRoot(props) {
@@ -324,7 +334,7 @@ export function PopoverRoot(props) {
             gravityOffset: props.gravityOffset,
             alignOffset: props.alignOffset,
           }}
-          onClose={props.onClose}
+          onClose={props.onClickOutside}
         />,
         document.body
       )

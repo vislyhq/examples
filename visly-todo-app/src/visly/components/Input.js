@@ -34,7 +34,7 @@ export default function Input(props) {
       }}
     >
       <InputPrimitive
-        className={"__visly_reset __visly_input __visly_scope_ABzyCKqm1K"}
+        className={"__visly_reset __visly_scope_ABzyCKqm1K_input"}
         key={"input"}
         placeholder={
           exists(props.placeholder) ? props.placeholder : "Placeholder"

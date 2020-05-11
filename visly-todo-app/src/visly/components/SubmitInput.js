@@ -35,12 +35,11 @@ export default function SubmitInput(props) {
           placeholder: props["placeholder"],
           value: props["value"],
           onChange: props["onChange"],
-          className:
-            "__visly_reset __visly_WwptRNdGtF __visly_scope_PWA9uV2g2r",
+          className: "__visly_reset __visly_scope_PWA9uV2g2r_WwptRNdGtF",
         }}
       />
       <ContainerPrimitive
-        className={"__visly_reset __visly_NEwo5DeyNv __visly_scope_PWA9uV2g2r"}
+        className={"__visly_reset __visly_scope_PWA9uV2g2r_NEwo5DeyNv"}
         key={"NEwo5DeyNv"}
         addSpacing={false}
       >
@@ -50,8 +49,7 @@ export default function SubmitInput(props) {
             {...{
               icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
               onClick: props["onSubmit"],
-              className:
-                "__visly_reset __visly_CX5ZtAKaFS __visly_scope_PWA9uV2g2r",
+              className: "__visly_reset __visly_scope_PWA9uV2g2r_CX5ZtAKaFS",
             }}
           />
         }

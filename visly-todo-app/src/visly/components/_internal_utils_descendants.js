@@ -96,6 +96,6 @@ export function useDescendant(data) {
       disabled,
     });
     return () => unregister(element);
-  }, [element, value, disabled, register, unregister]);
+  }, [element, value, disabled]);
   return getIndex(element);
 }

@@ -47,7 +47,7 @@ export default function Checkbox(props) {
     >
       {(getStyle) => (
         <IconPrimitive
-          className={"__visly_reset __visly_checkmark __visly_scope_WELyftQJp5"}
+          className={"__visly_reset __visly_scope_WELyftQJp5_checkmark"}
           key={"checkmark"}
           useMask={getStyle("checkmark", "useMask")}
           src={getStyle("checkmark", "src")}

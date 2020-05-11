@@ -15,7 +15,7 @@ const styles = [
     layers: {
       YMF63gWc8A: {
         none: {
-          text: "Button",
+          text: "ndewndenddndndndndndndn",
         },
       },
     },
@@ -35,9 +35,9 @@ export default function Button(props) {
       }}
     >
       <TextPrimitive
-        className={"__visly_reset __visly_YMF63gWc8A __visly_scope_Uq5q7Rg3yu"}
+        className={"__visly_reset __visly_scope_Uq5q7Rg3yu_YMF63gWc8A"}
         key={"YMF63gWc8A"}
-        text={exists(props.text) ? props.text : "Button"}
+        text={exists(props.text) ? props.text : "ndewndenddndndndndndndn"}
       />
     </ButtonRoot>
   );

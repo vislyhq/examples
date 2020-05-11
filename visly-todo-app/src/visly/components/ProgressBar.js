@@ -59,7 +59,7 @@ export default function ProgressBar(props) {
       addSpacing={false}
     >
       <ProgressFillPrimitive
-        className={"__visly_reset __visly_fill __visly_scope_PxaHDZhNKG"}
+        className={"__visly_reset __visly_scope_PxaHDZhNKG_fill"}
         key={"fill"}
         value={exists(props.value) ? props.value : 0.5}
       />

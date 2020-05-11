@@ -304,7 +304,7 @@ const _SliderRoot = (props) => {
       {...handlers}
       {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
       className={className}
-      style={style}
+      style={{ ...style, touchAction: "none" }}
       onPointerDown={isDisabled ? null : onPointerDown}
     >
       {renderChildren(props.children, values)}

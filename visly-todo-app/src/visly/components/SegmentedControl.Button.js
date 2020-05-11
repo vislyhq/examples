@@ -46,7 +46,7 @@ export default function Button(props) {
     >
       <TextPrimitive
         className={
-          "__visly_reset __visly_segmented-control-button-text __visly_scope_DJnp59Npst"
+          "__visly_reset __visly_scope_DJnp59Npst_segmented-control-button-text"
         }
         key={"segmented-control-button-text"}
         text={exists(props.text) ? props.text : "Text"}

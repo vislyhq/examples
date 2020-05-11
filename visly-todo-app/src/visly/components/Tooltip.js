@@ -40,9 +40,7 @@ export default function Tooltip(props) {
       }}
       internalChildren={
         <TextPrimitive
-          className={
-            "__visly_reset __visly_tooltip-text __visly_scope_CV7khtZtKf"
-          }
+          className={"__visly_reset __visly_scope_CV7khtZtKf_tooltip-text"}
           key={"tooltip-text"}
           text={exists(props.text) ? props.text : "Tooltip"}
         />

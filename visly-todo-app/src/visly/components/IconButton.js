@@ -38,9 +38,7 @@ export default function IconButton(props) {
     >
       {(getStyle) => (
         <IconPrimitive
-          className={
-            "__visly_reset __visly_UQGJpGfRHE __visly_scope_TVfnsEurhN"
-          }
+          className={"__visly_reset __visly_scope_TVfnsEurhN_UQGJpGfRHE"}
           key={"UQGJpGfRHE"}
           useMask={getStyle("UQGJpGfRHE", "useMask")}
           src={

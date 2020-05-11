@@ -67,7 +67,7 @@ export function SelectOptionContainer(props) {
                 tabIndex={-1}
                 className={props.className}
                 style={{
-                  overflow: "scroll",
+                  overflow: "auto",
                 }}
                 onBlur={() => setIsOpen(false)}
               >

@@ -56,14 +56,12 @@ export default function Task(props) {
       addSpacing={false}
     >
       <ContainerPrimitive
-        className={"__visly_reset __visly_Ut44Zfa3Po __visly_scope_uBZih7sxcZ"}
+        className={"__visly_reset __visly_scope_uBZih7sxcZ_Ut44Zfa3Po"}
         key={"Ut44Zfa3Po"}
         addSpacing={false}
       >
         <TextPrimitive
-          className={
-            "__visly_reset __visly_PJCCtmZ9Ea __visly_scope_uBZih7sxcZ"
-          }
+          className={"__visly_reset __visly_scope_uBZih7sxcZ_PJCCtmZ9Ea"}
           key={"PJCCtmZ9Ea"}
           text={
             exists(props.title)
@@ -72,21 +70,17 @@ export default function Task(props) {
           }
         />
         <SpacerPrimitive
-          className={
-            "__visly_reset __visly_FMiM7kukGw __visly_scope_uBZih7sxcZ"
-          }
+          className={"__visly_reset __visly_scope_uBZih7sxcZ_FMiM7kukGw"}
           key={"FMiM7kukGw"}
         />
         <TextPrimitive
-          className={
-            "__visly_reset __visly_DksnnuLiou __visly_scope_uBZih7sxcZ"
-          }
+          className={"__visly_reset __visly_scope_uBZih7sxcZ_DksnnuLiou"}
           key={"DksnnuLiou"}
           text={exists(props.date) ? props.date : "01/01/2020 15:22"}
         />
       </ContainerPrimitive>
       <SpacerPrimitive
-        className={"__visly_reset __visly_L3WNqdT8hE __visly_scope_uBZih7sxcZ"}
+        className={"__visly_reset __visly_scope_uBZih7sxcZ_L3WNqdT8hE"}
         key={"L3WNqdT8hE"}
       />
       <Checkbox
@@ -94,8 +88,7 @@ export default function Task(props) {
         {...{
           onChange: props["onCheckedChanged"],
           checked: props["checked"],
-          className:
-            "__visly_reset __visly_RswroRuchz __visly_scope_uBZih7sxcZ",
+          className: "__visly_reset __visly_scope_uBZih7sxcZ_RswroRuchz",
         }}
       />
     </RootPrimitive>

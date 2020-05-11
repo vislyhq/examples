@@ -216,8 +216,6 @@ export function useRootProps(props, state) {
   );
 }
 export function getRootClasses(args) {
-  const scopeClass = exists(args.scope) ? `__visly_scope_${args.scope}` : "";
-  const layerClass = `__visly_${args.layerId}`;
   const variantClasses = [
     `__visly_default`,
     ...args.setVariantProps.map((p) =>
@@ -229,10 +227,14 @@ export function getRootClasses(args) {
   const stateClasses = getInheritanceChain(args.state)
     .map((state) => `__visly_state_${state}`)
     .join(" ");
-  return `__visly_reset ${scopeClass} ${layerClass} ${variantClasses} ${stateClasses}`;
+  return `${getLayerClass(
+    args.layerId,
+    args.scope
+  )} ${variantClasses} ${stateClasses}`;
 }
 export function getLayerClass(layerId, scope) {
-  return `__visly_reset __visly_${layerId} __visly_scope_${scope}`;
+  const scopeClass = exists(scope) ? `__visly_scope_${scope}` : "";
+  return `__visly_reset ${scopeClass}_${layerId}`;
 }
 export const entries = Object.entries;
 
@@ -353,17 +355,57 @@ export function combineRef(ref1, ref2) {
     setRef(ref2, el);
   };
 }
+export const useMouseHandler = (props) => {
+  const [isHandlingEvents, setIsHandlingEvents] = useState(false);
+  const handler = useMemo(
+    () => createMouseHandler({ ...props, setIsHandlingEvents }),
+    [props]
+  );
+  const { setPressed } = props;
+  const onDocumentMouseUp = useCallback(() => {
+    if (isHandlingEvents) {
+      setIsHandlingEvents(false);
+      setPressed(false);
+    }
+  }, [isHandlingEvents, setPressed]);
+  useEffect(() => {
+    document.addEventListener("mouseup", onDocumentMouseUp);
+    return () => {
+      document.removeEventListener("mouseup", onDocumentMouseUp);
+    };
+  }, [onDocumentMouseUp]);
+  return handler;
+};
+export const createMouseHandler = ({
+  isInside,
+  setIsHandlingEvents,
+  setPressed,
+  setHovered,
+}) => {
+  return {
+    onMouseEnter: (event) => setHovered(isInside(event)),
+    onMouseLeave: (_) => setHovered(false),
+    onMouseMove: (event) => setHovered(isInside(event)),
+    onMouseDown: (event) => {
+      setIsHandlingEvents(isInside(event));
+      setPressed(isInside(event));
+      event.stopPropagation();
+    },
+    onMouseUp: (_) => setPressed(false),
+  };
+};
 export function useEventHandlers(props) {
+  const { ref, onClick, onKeyDown, onKeyUp, onFocus, onBlur } = props;
   const { state, setFocused, setHovered, setPressed } = useInteractionState(
     props
   );
   const isInside = useCallback(
     (e) => {
-      if (!exists(props.ref)) return false;
+      if (!exists(ref)) return false;
       let parent = e.target;
 
       while (exists(parent)) {
-        if (parent === props.ref.current) {
+        if (parent === ref.current) {
           return true;
         }
 
@@ -372,34 +414,42 @@ export function useEventHandlers(props) {
 
       return false;
     },
-    [props]
+    [ref]
   );
+  const mouseHandler = useMouseHandler({
+    isInside,
+    setHovered,
+    setPressed,
+  });
   const handlers = useMemo(
     () => ({
-      onKeyDown: props.onKeyDown,
-      onKeyUp: props.onKeyUp,
-      onMouseEnter: (e) => setHovered(isInside(e)),
-      onMouseLeave: (e) => setHovered(false),
-      onMouseMove: (e) => setHovered(isInside(e)),
-      onMouseDown: (e) => setPressed(isInside(e)),
-      onMouseUp: (e) => setPressed(false),
+      onKeyDown: onKeyDown,
+      onKeyUp: onKeyUp,
       onFocus: (e) => {
         setFocused(true);
 
-        if (props.onFocus) {
-          props.onFocus(e);
+        if (onFocus) {
+          onFocus(e);
         }
+
+        e.stopPropagation();
       },
       onBlur: (e) => {
         setFocused(false);
 
-        if (props.onBlur) {
-          props.onBlur(e);
+        if (onBlur) {
+          onBlur(e);
         }
       },
-      onClick: props.onClick,
+      onClick: (e) => {
+        if (exists(onClick)) {
+          onClick();
+          e.stopPropagation();
+        }
+      },
+      ...mouseHandler,
     }),
-    [props, isInside, setFocused, setPressed, setHovered]
+    [setFocused, onKeyDown, onKeyUp, onFocus, onBlur, onClick, mouseHandler]
   );
 
   if (state === InteractionState.Disabled) {
@@ -439,8 +489,8 @@ export const useRect = (ref, observe = false) => {
     top: 0,
     width: 0,
     height: 0,
-    x: 0,
-    y: 0,
+    x: -10000,
+    y: -10000,
   });
   const observeRef = useRef(observe);
   const didCalcInitialRect = useRef(false);
