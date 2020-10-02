@@ -3,11 +3,15 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
+import "./SegmentedControl.Button.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import { TextPrimitive } from "./_internal_primitives";
 import { RadioGroupButtonRoot } from "./_internal_radio_group";
-import "./SegmentedControl.Button.css";
 
 const styles = [
   {
@@ -27,30 +31,69 @@ const styles = [
   },
 ];
 
-export default function Button(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+  {
+    type: "boolean",
+    propName: "selected",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [
+  {
+    type: "boolean",
+    propName: "selected",
+  },
+];
+
+export const ButtonContext = createContext(null);
+
+function Button(_props) {
+  const defaults = useContext(ButtonContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RadioGroupButtonRoot
       {...props}
       key="segmented-control-button-root"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "segmented-control-button-root",
         scope: "DJnp59Npst",
-        variantPropTypes: [
-          {
-            type: "boolean",
-            propName: "selected",
-          },
-        ],
+        activeVariants: activeVariants,
       }}
     >
-      <TextPrimitive
-        className={
-          "__visly_reset __visly_scope_DJnp59Npst_segmented-control-button-text"
-        }
-        key={"segmented-control-button-text"}
-        text={exists(props.text) ? props.text : "Text"}
-      />
+      {(getStyle) => (
+        <TextPrimitive
+          className={
+            "__visly_reset __visly_scope_DJnp59Npst_segmented-control-button-text"
+          }
+          key={"segmented-control-button-text"}
+          text={
+            exists(props.text)
+              ? props.text
+              : getStyle("segmented-control-button-text", "text")
+          }
+        />
+      )}
     </RadioGroupButtonRoot>
   );
 }
+
+Button.__variants = [
+  {
+    name: "selected",
+    type: "variant",
+  },
+];
+
+export default Button;

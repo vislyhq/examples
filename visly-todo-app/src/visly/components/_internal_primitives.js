@@ -2,88 +2,48 @@
 /* tslint:disable */
 /* eslint-disable */
 import React, { useRef } from "react";
-import {
-  InteractionState,
-  exists,
-  useRootProps,
-  useEventHandlers,
-  combineRef,
-  renderChildren,
-} from "./_internal_utils";
-import { useSpacing } from "./_internal_component_utils";
-export function StaticRootPrimitive(props) {
-  const { injectedProps, className, tabIndex, innerRef, values } = useRootProps(
-    props,
-    InteractionState.None
-  );
-  const children = useSpacing(
-    props.addSpacing,
-    renderChildren(props.children, values)
-  );
-  return (
-    <div
-      ref={innerRef}
-      className={className}
-      tabIndex={tabIndex}
-      {...injectedProps}
-    >
-      {children}
-    </div>
-  );
-}
+import { exists, combineRef, renderChildren } from "./_internal_utils";
+import { injectSpacing } from "./_internal_component_utils";
+import { usePrimitive } from "./_internal_usePrimitive";
 export function RootPrimitive(props) {
   const ref = useRef();
-  const { state, handlers } = useEventHandlers({
+  const { style, testId, innerRef, values, vislyProps } = usePrimitive({
     ref,
-    ...props,
+    props,
   });
-  const {
-    style,
-    injectedProps,
-    className,
-    tabIndex,
-    testId,
-    innerRef,
-    role,
-    values,
-  } = useRootProps(props, state);
-  const noSelectStyles = exists(props.onClick)
-    ? {
-        cursor: "pointer",
-        userSelect: "none",
-        WebkitUserSelect: "none",
-        KhtmlUserSelect: "none",
-        MozUserSelect: "none",
-      }
-    : {};
-  const children = useSpacing(
+  const children = injectSpacing(
     props.addSpacing,
     renderChildren(props.children, values)
   );
   return (
     <div
-      tabIndex={tabIndex}
-      ref={combineRef(innerRef, ref)}
-      role={role}
+      ref={combineRef(props.measureRef, combineRef(innerRef, ref))}
       data-testid={testId}
-      {...handlers}
-      {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
-      className={className}
-      style={{ ...noSelectStyles, ...style }}
+      {...vislyProps}
+      style={style}
     >
       {children}
     </div>
   );
 }
 export function ContainerPrimitive(props) {
-  const children = useSpacing(props.addSpacing, props.children);
-  return <div className={props.className}>{children}</div>;
+  const children = injectSpacing(props.addSpacing, props.children);
+  return (
+    <div ref={props.measureRef} className={props.className}>
+      {children}
+    </div>
+  );
 }
 export function TextPrimitive(props) {
-  return <div className={props.className}>{props.text}</div>;
+  const { className, text, measureRef } = props;
+  return (
+    <div className={className} ref={measureRef}>
+      {text}
+    </div>
+  );
 }
 export function IconPrimitive(props) {
-  const { src, useMask } = props;
+  const { src, useMask, measureRef, error } = props;
   const maskStyles = useMask
     ? {
         mask: `url(${src}) no-repeat 50% 50% / contain`,
@@ -92,22 +52,29 @@ export function IconPrimitive(props) {
     : {
         background: `url(${src}) no-repeat 50% 50% / contain`,
       };
-  return <div className={props.className} style={maskStyles} />;
+  const errorStyles = {
+    backgroundColor: "red",
+  };
+  const styles = error ? errorStyles : maskStyles;
+  return <div className={props.className} style={styles} ref={measureRef} />;
 }
 export function ImagePrimitive(props) {
+  const { className, src, alt, measureRef } = props;
   return (
     <div
+      ref={measureRef}
       role="img"
-      className={props.className}
+      className={className}
       style={{
-        backgroundImage: `url(${props.src}`,
+        backgroundImage: `url(${src}`,
       }}
-      aria-label={exists(props.alt) ? props.alt : ""}
+      aria-label={exists(alt) ? alt : ""}
     />
   );
 }
 export function SpacerPrimitive(props) {
-  return <div className={props.className} />;
+  const { className, measureRef } = props;
+  return <div className={className} ref={measureRef} />;
 }
 export function ProgressFillPrimitive(props) {
   function clamp(value, min, max) {
@@ -116,6 +83,7 @@ export function ProgressFillPrimitive(props) {
 
   return (
     <div
+      ref={props.measureRef}
       className={props.className}
       style={{
         width: `${clamp(props.value, 0, 1) * 100}%`,

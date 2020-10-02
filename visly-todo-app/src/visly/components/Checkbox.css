@@ -2,35 +2,39 @@
 .__visly_scope_WELyftQJp5_root {
   overflow: hidden;
   box-sizing: border-box;
-  cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
-  width: 21px;
-  height: 21px;
+  width: 24px;
+  height: 24px;
+  border-color: #505050;
+  border-style: solid;
+  background-color: transparent;
   align-items: center;
   justify-content: center;
-  border-color: #000;
-  border-width: 2px;
-  background-color: #fff;
-  border-radius: 50%;
+  border-radius: 100px;
+  border-width: 3px;
+  padding: 12px;
 }
 .__visly_scope_WELyftQJp5_root.__visly_default.__visly_state_hover {
-  border-color: #7b61ff;
+  border-color: transparent;
 }
 .__visly_scope_WELyftQJp5_root .__visly_scope_WELyftQJp5_checkmark {
   display: block;
   box-sizing: border-box;
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   background-color: #fff;
 }
+.__visly_scope_WELyftQJp5_root.__visly_checked.__visly_state_hover,
 .__visly_scope_WELyftQJp5_root.__visly_checked.__visly_state_none {
-  border-color: #7b61ff;
-  background-color: #7b61ff;
+  border-color: #7c72dc;
+  background-color: #7c72dc;
 }
-.__visly_scope_WELyftQJp5_root.__visly_checked.__visly_state_hover {
-  border-color: #512eff;
-  background-color: #512eff;
+.__visly_scope_WELyftQJp5_root.__visly_checked.__visly_state_none
+  .__visly_scope_WELyftQJp5_checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
 }

@@ -3,16 +3,20 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
+import "./Task.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import {
   RootPrimitive,
   SpacerPrimitive,
   TextPrimitive,
   ContainerPrimitive,
 } from "./_internal_primitives";
-import "./Task.css";
-import Checkbox from "./Checkbox";
+import CheckboxComposite, { CheckboxContext } from "./Checkbox";
 
 const styles = [
   {
@@ -37,60 +41,109 @@ const styles = [
   },
 ];
 
-export default function Task(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {
+      RswroRuchz: {},
+    },
+  },
+  {
+    type: "boolean",
+    propName: "done",
+    layers: {
+      RswroRuchz: {},
+    },
+  },
+];
+
+const variantPropTypes = [
+  {
+    type: "boolean",
+    propName: "done",
+  },
+];
+
+export const TaskContext = createContext(null);
+
+function Task(_props) {
+  const defaults = useContext(TaskContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RootPrimitive
       {...props}
       key="24TAp68qmf"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "24TAp68qmf",
         scope: "uBZih7sxcZ",
-        variantPropTypes: [
-          {
-            type: "boolean",
-            propName: "done",
-          },
-        ],
+        activeVariants: activeVariants,
       }}
-      addSpacing={false}
     >
-      <ContainerPrimitive
-        className={"__visly_reset __visly_scope_uBZih7sxcZ_Ut44Zfa3Po"}
-        key={"Ut44Zfa3Po"}
-        addSpacing={false}
-      >
-        <TextPrimitive
-          className={"__visly_reset __visly_scope_uBZih7sxcZ_PJCCtmZ9Ea"}
-          key={"PJCCtmZ9Ea"}
-          text={
-            exists(props.title)
-              ? props.title
-              : "This is a task that needs to get done"
-          }
-        />
+      {(getStyle) => [
+        <ContainerPrimitive
+          className={"__visly_reset __visly_scope_uBZih7sxcZ_Ut44Zfa3Po"}
+          key={"Ut44Zfa3Po"}
+          addSpacing={false}
+        >
+          <TextPrimitive
+            className={"__visly_reset __visly_scope_uBZih7sxcZ_PJCCtmZ9Ea"}
+            key={"PJCCtmZ9Ea"}
+            text={
+              exists(props.title) ? props.title : getStyle("PJCCtmZ9Ea", "text")
+            }
+          />
+          <SpacerPrimitive
+            className={"__visly_reset __visly_scope_uBZih7sxcZ_FMiM7kukGw"}
+            key={"FMiM7kukGw"}
+          />
+          <TextPrimitive
+            className={"__visly_reset __visly_scope_uBZih7sxcZ_DksnnuLiou"}
+            key={"DksnnuLiou"}
+            text={
+              exists(props.date) ? props.date : getStyle("DksnnuLiou", "text")
+            }
+          />
+        </ContainerPrimitive>,
         <SpacerPrimitive
-          className={"__visly_reset __visly_scope_uBZih7sxcZ_FMiM7kukGw"}
-          key={"FMiM7kukGw"}
-        />
-        <TextPrimitive
-          className={"__visly_reset __visly_scope_uBZih7sxcZ_DksnnuLiou"}
-          key={"DksnnuLiou"}
-          text={exists(props.date) ? props.date : "01/01/2020 15:22"}
-        />
-      </ContainerPrimitive>
-      <SpacerPrimitive
-        className={"__visly_reset __visly_scope_uBZih7sxcZ_L3WNqdT8hE"}
-        key={"L3WNqdT8hE"}
-      />
-      <Checkbox
-        key={"RswroRuchz"}
-        {...{
-          onChange: props["onCheckedChanged"],
-          checked: props["checked"],
-          className: "__visly_reset __visly_scope_uBZih7sxcZ_RswroRuchz",
-        }}
-      />
+          className={"__visly_reset __visly_scope_uBZih7sxcZ_L3WNqdT8hE"}
+          key={"L3WNqdT8hE"}
+        />,
+        props.Checkbox === undefined ? (
+          <CheckboxComposite
+            key={"RswroRuchz"}
+            {...getCompositeDefaultProps("RswroRuchz")}
+            className="__visly_reset __visly_scope_uBZih7sxcZ_RswroRuchz"
+          />
+        ) : (
+          <CheckboxContext.Provider
+            key="RswroRuchz-provider"
+            value={{
+              key: "RswroRuchz",
+              className: "__visly_reset __visly_scope_uBZih7sxcZ_RswroRuchz",
+              ...getCompositeDefaultProps("RswroRuchz"),
+            }}
+          >
+            {props.Checkbox}
+          </CheckboxContext.Provider>
+        ),
+      ]}
     </RootPrimitive>
   );
 }
+
+Task.Checkbox = CheckboxComposite;
+Task.__variants = [
+  {
+    name: "done",
+    type: "variant",
+  },
+];
+
+export default Task;

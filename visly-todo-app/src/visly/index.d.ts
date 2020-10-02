@@ -1,6 +1,10 @@
 import * as colors from './colors';
 import * as textstyles from './textstyles';
 import * as icons from './icons';
+import * as sizes from './sizes';
 import * as __refs__ from './__refs__';
-export { icons, textstyles, colors, __refs__ };
+export { icons, textstyles, colors, sizes, __refs__ };
 export * from './components';
+type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType> ? ElementType : never;
+export function setBreakpoints(rule: 'min-width' | 'max-width', breaks: string[]);
+export function useBreakpoint<T extends string, R extends ReadonlyArray<string>>(def: T, variants: R): T | ElementType<R>;

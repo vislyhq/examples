@@ -3,32 +3,77 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
-import { RadioGroupRoot } from "./_internal_radio_group";
 import "./SegmentedControl.css";
+import React, { createContext, useContext } from "react";
+import {
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
+import { RadioGroupRoot } from "./_internal_radio_group";
 
 const styles = [
   {
     type: "default",
     layers: {},
   },
+  {
+    type: "boolean",
+    propName: "focused",
+    layers: {},
+  },
 ];
 
-export default function SegmentedControl(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+  {
+    type: "boolean",
+    propName: "focused",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [
+  {
+    type: "boolean",
+    propName: "focused",
+  },
+];
+
+export const SegmentedControlContext = createContext(null);
+
+function SegmentedControl(_props) {
+  const defaults = useContext(SegmentedControlContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RadioGroupRoot
       {...props}
       key="segmented-control-root"
       addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "segmented-control-root",
-        scope: "segmented-control-root",
-        variantPropTypes: [],
+        scope: "DdfBmMMiiB",
+        activeVariants: activeVariants,
       }}
     >
-      {(getStyle) => (exists(props.children) ? props.children : null)}
+      {(getStyle) => props.children}
     </RadioGroupRoot>
   );
 }
+
+SegmentedControl.__variants = [
+  {
+    name: "focused",
+    type: "variant",
+  },
+];
+
+export default SegmentedControl;

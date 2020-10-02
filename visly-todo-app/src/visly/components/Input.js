@@ -3,10 +3,14 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
-import { Root, InputPrimitive } from "./_internal_input";
 import "./Input.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
+import { Root, InputPrimitive } from "./_internal_input";
 
 const styles = [
   {
@@ -21,25 +25,52 @@ const styles = [
   },
 ];
 
-export default function Input(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [];
+
+export const InputContext = createContext(null);
+
+function Input(_props) {
+  const defaults = useContext(InputContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <Root
       {...props}
       key="root"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "root",
         scope: "ABzyCKqm1K",
-        variantPropTypes: [],
+        activeVariants: activeVariants,
       }}
     >
-      <InputPrimitive
-        className={"__visly_reset __visly_scope_ABzyCKqm1K_input"}
-        key={"input"}
-        placeholder={
-          exists(props.placeholder) ? props.placeholder : "Placeholder"
-        }
-      />
+      {(getStyle) => (
+        <InputPrimitive
+          className={"__visly_reset __visly_scope_ABzyCKqm1K_input"}
+          key={"input"}
+          placeholder={
+            exists(props.placeholder)
+              ? props.placeholder
+              : getStyle("input", "placeholderText")
+          }
+        />
+      )}
     </Root>
   );
 }
+
+Input.__variants = [];
+
+export default Input;

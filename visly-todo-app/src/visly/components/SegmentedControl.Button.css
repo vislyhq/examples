@@ -6,21 +6,22 @@
   flex-grow: 1;
   flex-shrink: 1;
   background-color: transparent;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 0;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
   align-content: flex-start;
   justify-content: center;
+  padding: 8px;
+}
+.__visly_scope_DJnp59Npst_segmented-control-button-root.__visly_default.__visly_state_pressed {
+  background-color: transparent;
 }
 .__visly_scope_DJnp59Npst_segmented-control-button-root
   .__visly_scope_DJnp59Npst_segmented-control-button-text {
   display: block;
   box-sizing: border-box;
   overflow: hidden;
-  color: #000;
+  color: #505050;
   text-align: start;
   white-space: normal;
   font-family: Visly Roboto;
@@ -30,13 +31,17 @@
   line-height: 20px;
   flex-shrink: 1;
   align-self: auto;
+  padding: 0;
 }
 .__visly_scope_DJnp59Npst_segmented-control-button-root.__visly_default.__visly_state_hover
   .__visly_scope_DJnp59Npst_segmented-control-button-text {
-  color: #0070f3;
+  color: #7c72dc;
 }
 .__visly_scope_DJnp59Npst_segmented-control-button-root.__visly_selected.__visly_state_none {
-  background-color: #000;
+  background-color: #505050;
+}
+.__visly_scope_DJnp59Npst_segmented-control-button-root.__visly_selected.__visly_state_hover {
+  background-color: #7c72dc;
 }
 .__visly_scope_DJnp59Npst_segmented-control-button-root.__visly_selected.__visly_state_none
   .__visly_scope_DJnp59Npst_segmented-control-button-text {

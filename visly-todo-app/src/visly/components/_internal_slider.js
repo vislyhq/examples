@@ -11,28 +11,21 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  combineRef,
-  exists,
-  useEventHandlers,
-  useRootProps,
-  InteractionState,
-  renderChildren,
-} from "./_internal_utils";
+import { mergeProps } from "@visly/core";
+import { combineRef, exists, renderChildren } from "./_internal_utils";
+import { usePrimitive } from "./_internal_usePrimitive";
 
 const snap = (value, steps) => {
   const snapped = steps.find((s) => s.start <= value && s.end >= value);
   return exists(snapped) ? snapped.value : value;
 };
 
-const trap = (value, min, max) => {
+const clamp = (value, min, max) => {
   return Math.min(max, Math.max(min, value));
 };
 
 export class SlideHandler {
-  constructor({ rootDOM, thumbDOM, trackDOM, value, max, min, steps }) {
-    this.rootDOM = rootDOM;
-    this.thumbDOM = thumbDOM;
+  constructor({ trackDOM, value, max, min, steps }) {
     this.trackDOM = trackDOM;
     this.value = value;
     this.max = max;
@@ -70,19 +63,8 @@ export class SlideHandler {
     return this.value + direction * step;
   }
 
-  calculateProgressWidth() {
-    const progress = (this.value / this.max - this.min) * 100;
-    return `${progress}%`;
-  }
-
-  calculateThumbLeft() {
-    const trackRect = this.trackDOM.getBoundingClientRect();
-    const rootRect = this.rootDOM.getBoundingClientRect();
-    const thumbRect = this.thumbDOM.getBoundingClientRect();
-    const progress = this.value / this.max - this.min;
-    const progressWidth = trackRect.width * progress;
-    const trackRelativeX = trackRect.x - rootRect.x;
-    return trackRelativeX + progressWidth - thumbRect.width / 2;
+  getProgress() {
+    return this.value / this.max - this.min;
   }
 
   updateValueFromPointerEvent(event) {
@@ -91,12 +73,12 @@ export class SlideHandler {
     const progress = (touchX - trackRect.x) / trackRect.width;
     const value = this.min + progress * (this.max - this.min);
     const snapped = exists(this.steps) ? snap(value, this.steps) : value;
-    return trap(snapped, this.min, this.max);
+    return clamp(snapped, this.min, this.max);
   }
 
   updateValueFromStep(direction) {
     const next = this.getNextStep(direction);
-    return trap(
+    return clamp(
       exists(next) ? next.value : this.getNextValue(direction),
       this.min,
       this.max
@@ -131,33 +113,23 @@ export const calculateSteps = (min, max, stepSize) => {
 export const SliderContext = createContext({
   handler: undefined,
   trackRef: undefined,
-  thumbRef: undefined,
-  rootRef: undefined,
 });
 export const SliderContextProvider = ({ min, max, value, step, children }) => {
   assert(max > min, "max must be greater than min");
   const [handler, setHandler] = useState(undefined);
-  const thumbRef = useRef(null);
   const trackRef = useRef(null);
-  const rootRef = useRef(null);
   const steps = useMemo(() => {
     return step !== undefined && step > 0
       ? calculateSteps(min, max, step)
       : undefined;
   }, [step, min, max]);
   useEffect(() => {
-    if (
-      trackRef.current !== null &&
-      thumbRef.current !== null &&
-      rootRef.current !== null
-    ) {
+    if (trackRef.current !== null) {
       setHandler(
         new SlideHandler({
           value,
           min,
           max,
-          rootDOM: rootRef.current,
-          thumbDOM: thumbRef.current,
           trackDOM: trackRef.current,
           steps,
         })
@@ -167,11 +139,9 @@ export const SliderContextProvider = ({ min, max, value, step, children }) => {
   const contextValue = useMemo(
     () => ({
       handler,
-      thumbRef,
       trackRef,
-      rootRef,
     }),
-    [handler, trackRef, thumbRef, rootRef]
+    [handler, trackRef]
   );
   return (
     <SliderContext.Provider value={contextValue}>
@@ -179,47 +149,63 @@ export const SliderContextProvider = ({ min, max, value, step, children }) => {
     </SliderContext.Provider>
   );
 };
-export const SliderTrack = ({ className, children }) => {
+export const SliderStyles = {
+  thumb: (progress) => ({
+    position: "absolute",
+    left: `${progress * 100}%`,
+    transform: "translate(-50%)",
+  }),
+  track: {
+    position: "relative",
+    overflow: "visible",
+    alignItems: "center",
+  },
+  progress: (progress) => ({
+    width: `${progress * 100}%`,
+    height: "100%",
+  }),
+  root: {
+    position: "relative",
+  },
+};
+export const SliderTrack = ({ className, children, measureRef }) => {
   const { trackRef } = useContext(SliderContext);
   return (
-    <div ref={trackRef} className={className}>
+    <div
+      ref={combineRef(trackRef, measureRef)}
+      className={className}
+      style={SliderStyles.track}
+    >
       {children}
     </div>
   );
 };
-export const SliderThumb = ({ className }) => {
-  const { thumbRef, handler } = useContext(SliderContext);
-  const style = exists(handler)
-    ? {
-        position: "absolute",
-        left: handler.calculateThumbLeft(),
-        top: "auto",
-        bottom: "auto",
-      }
-    : undefined;
-  return <div ref={thumbRef} style={style} className={className} />;
-};
-export const SliderProgress = ({ className }) => {
+export const SliderThumb = ({ className, measureRef }) => {
   const { handler } = useContext(SliderContext);
   const style = exists(handler)
-    ? {
-        position: "absolute",
-        width: handler.calculateProgressWidth(),
-      }
+    ? SliderStyles.thumb(handler.getProgress())
     : undefined;
-  return <div className={className} style={style} />;
+  return <div ref={measureRef} style={style} className={className} />;
 };
-export const SliderRoot = (props) => {
+export const SliderProgress = ({ className, measureRef }) => {
+  const { handler } = useContext(SliderContext);
+  const style = exists(handler)
+    ? SliderStyles.progress(handler.getProgress())
+    : undefined;
+  return <div ref={measureRef} className={className} style={style} />;
+};
+export function SliderRoot(props) {
+  const { min = 0, max = 100, value = 50, ...rest } = props;
   return (
-    <SliderContextProvider {...props}>
-      <_SliderRoot {...props} />
+    <SliderContextProvider min={min} max={max} value={value} {...rest}>
+      <_SliderRoot min={min} max={max} value={value} {...rest} />
     </SliderContextProvider>
   );
-};
+}
 
 const _SliderRoot = (props) => {
-  const { onChange } = props;
-  const { rootRef, handler } = useContext(SliderContext);
+  const { onChange = () => {} } = props;
+  const { handler } = useContext(SliderContext);
   const onStepUpdate = useCallback(
     (direction) => {
       if (exists(handler)) {
@@ -228,6 +214,16 @@ const _SliderRoot = (props) => {
     },
     [onChange, handler]
   );
+  const setStepToMin = useCallback(() => {
+    if (exists(handler)) {
+      onChange(handler.min);
+    }
+  }, [onChange, handler]);
+  const setStepToMax = useCallback(() => {
+    if (exists(handler)) {
+      onChange(handler.max);
+    }
+  }, [onChange, handler]);
   const defaultOnKeyDown = useCallback(
     (event) => {
       switch (event.key) {
@@ -240,27 +236,19 @@ const _SliderRoot = (props) => {
         case "ArrowUp":
           onStepUpdate(1);
           break;
+
+        case "Home":
+          setStepToMin();
+          break;
+
+        case "End":
+          setStepToMax();
+          break;
       }
     },
-    [onStepUpdate]
+    [onStepUpdate, setStepToMin, setStepToMax]
   );
-  const { state, handlers } = useEventHandlers({
-    ref: rootRef,
-    onKeyDown: defaultOnKeyDown,
-    ...props,
-  });
-  const {
-    style,
-    injectedProps,
-    className,
-    tabIndex,
-    testId,
-    innerRef,
-    role,
-    values,
-  } = useRootProps(props, state);
-  const isDisabled = state === InteractionState.Disabled;
-  const [isTracking, setIsTracking] = useState(false);
+  const ref = useRef();
   const onPointerUpdate = useCallback(
     (event) => {
       if (exists(handler)) {
@@ -273,9 +261,18 @@ const _SliderRoot = (props) => {
     (event) => {
       setIsTracking(true);
       onPointerUpdate(event.nativeEvent);
+      event.preventDefault();
     },
     [onPointerUpdate]
   );
+  const { style, testId, innerRef, values, vislyProps } = usePrimitive({
+    ref,
+    props: mergeProps(props, {
+      onKeyDown: defaultOnKeyDown,
+      onPointerDown,
+    }),
+  });
+  const [isTracking, setIsTracking] = useState(false);
   const onPointerUp = useCallback(() => {
     setIsTracking(false);
   }, []);
@@ -297,15 +294,15 @@ const _SliderRoot = (props) => {
   }, [onPointerUp, onPointerMove]);
   return (
     <div
-      tabIndex={tabIndex}
-      ref={combineRef(innerRef, rootRef)}
-      role={role}
+      tabIndex={0}
+      ref={combineRef(props.measureRef, combineRef(innerRef, ref))}
       data-testid={testId}
-      {...handlers}
-      {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
-      className={className}
-      style={{ ...style, touchAction: "none" }}
-      onPointerDown={isDisabled ? null : onPointerDown}
+      {...vislyProps}
+      style={{ ...style, touchAction: "none", ...SliderStyles.root }}
+      role="slider"
+      aria-valuenow={exists(handler) ? handler.value : undefined}
+      aria-valuemin={exists(handler) ? handler.min : undefined}
+      aria-valuemax={exists(handler) ? handler.max : undefined}
     >
       {renderChildren(props.children, values)}
     </div>

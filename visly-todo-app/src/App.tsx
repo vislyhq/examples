@@ -45,14 +45,22 @@ function App() {
   return (
     <Page title="Visly todo app">
       <SubmitInput
-        placeholder="Get it done!"
-        value={title}
-        onChange={setTitle}
-        onSubmit={() => {
-          const todo = newTodo(title || "Untitled");
-          setTodos({ ...todos, [todo.id]: todo });
-          setTitle("");
-        }}
+        Input={
+          <SubmitInput.Input
+            placeholder="Get it done!"
+            value={title}
+            onChange={setTitle}
+          />
+        }
+        IconButton={
+          <SubmitInput.IconButton
+            onClick={() => {
+              const todo = newTodo(title || "Untitled");
+              setTodos({ ...todos, [todo.id]: todo });
+              setTitle("");
+            }}
+          />
+        }
       />
 
       <div style={{ height: 30 }} />
@@ -82,10 +90,12 @@ function App() {
             style={{ marginTop: 10 }}
             title={todo.title}
             done={todo.done}
-            checked={todo.done}
-            onCheckedChanged={() => {
-              setTodos({ ...todos, [todo.id]: { ...todo, done: !todo.done } });
-            }}
+            Checkbox={
+              <Task.Checkbox
+                checked={todo.done}
+                onChange={() => { setTodos({ ...todos, [todo.id]: { ...todo, done: !todo.done } }) }}
+              />
+            }
             date={todo.date.toLocaleTimeString()}
           />
         ))}

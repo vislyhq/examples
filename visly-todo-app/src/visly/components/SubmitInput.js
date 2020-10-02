@@ -3,11 +3,15 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { RootPrimitive, ContainerPrimitive } from "./_internal_primitives";
 import "./SubmitInput.css";
-import IconButton from "./IconButton";
-import Input from "./Input";
+import React, { createContext, useContext } from "react";
+import {
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
+import { RootPrimitive, ContainerPrimitive } from "./_internal_primitives";
+import IconButtonComposite, { IconButtonContext } from "./IconButton";
+import InputComposite, { InputContext } from "./Input";
 
 const styles = [
   {
@@ -16,44 +20,94 @@ const styles = [
   },
 ];
 
-export default function SubmitInput(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {
+      CX5ZtAKaFS: {
+        none: {
+          icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
+        },
+      },
+      WwptRNdGtF: {},
+    },
+  },
+];
+
+const variantPropTypes = [];
+
+export const SubmitInputContext = createContext(null);
+
+function SubmitInput(_props) {
+  const defaults = useContext(SubmitInputContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RootPrimitive
       {...props}
       key="REBnvNeuyY"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "REBnvNeuyY",
         scope: "PWA9uV2g2r",
-        variantPropTypes: [],
+        activeVariants: activeVariants,
       }}
-      addSpacing={false}
     >
-      <Input
-        key={"WwptRNdGtF"}
-        {...{
-          placeholder: props["placeholder"],
-          value: props["value"],
-          onChange: props["onChange"],
-          className: "__visly_reset __visly_scope_PWA9uV2g2r_WwptRNdGtF",
-        }}
-      />
-      <ContainerPrimitive
-        className={"__visly_reset __visly_scope_PWA9uV2g2r_NEwo5DeyNv"}
-        key={"NEwo5DeyNv"}
-        addSpacing={false}
-      >
-        {
-          <IconButton
-            key={"CX5ZtAKaFS"}
-            {...{
-              icon: require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg"),
-              onClick: props["onSubmit"],
-              className: "__visly_reset __visly_scope_PWA9uV2g2r_CX5ZtAKaFS",
-            }}
+      {(getStyle) => [
+        props.Input === undefined ? (
+          <InputComposite
+            key={"WwptRNdGtF"}
+            {...getCompositeDefaultProps("WwptRNdGtF")}
+            className="__visly_reset __visly_scope_PWA9uV2g2r_WwptRNdGtF"
           />
-        }
-      </ContainerPrimitive>
+        ) : (
+          <InputContext.Provider
+            key="WwptRNdGtF-provider"
+            value={{
+              key: "WwptRNdGtF",
+              className: "__visly_reset __visly_scope_PWA9uV2g2r_WwptRNdGtF",
+              ...getCompositeDefaultProps("WwptRNdGtF"),
+            }}
+          >
+            {props.Input}
+          </InputContext.Provider>
+        ),
+        <ContainerPrimitive
+          className={"__visly_reset __visly_scope_PWA9uV2g2r_NEwo5DeyNv"}
+          key={"NEwo5DeyNv"}
+          addSpacing={false}
+        >
+          {props.IconButton === undefined ? (
+            <IconButtonComposite
+              key={"CX5ZtAKaFS"}
+              {...getCompositeDefaultProps("CX5ZtAKaFS")}
+              className="__visly_reset __visly_scope_PWA9uV2g2r_CX5ZtAKaFS"
+            />
+          ) : (
+            <IconButtonContext.Provider
+              key="CX5ZtAKaFS-provider"
+              value={{
+                key: "CX5ZtAKaFS",
+                className: "__visly_reset __visly_scope_PWA9uV2g2r_CX5ZtAKaFS",
+                ...getCompositeDefaultProps("CX5ZtAKaFS"),
+              }}
+            >
+              {props.IconButton}
+            </IconButtonContext.Provider>
+          )}
+        </ContainerPrimitive>,
+      ]}
     </RootPrimitive>
   );
 }
+
+SubmitInput.IconButton = IconButtonComposite;
+SubmitInput.Input = InputComposite;
+SubmitInput.__variants = [];
+
+export default SubmitInput;

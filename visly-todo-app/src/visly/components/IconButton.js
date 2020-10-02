@@ -3,11 +3,15 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
+import "./IconButton.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import { IconPrimitive } from "./_internal_primitives";
 import { ButtonRoot } from "./_internal_button";
-import "./IconButton.css";
 
 const styles = [
   {
@@ -24,16 +28,35 @@ const styles = [
   },
 ];
 
-export default function IconButton(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [];
+
+export const IconButtonContext = createContext(null);
+
+function IconButton(_props) {
+  const defaults = useContext(IconButtonContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <ButtonRoot
       {...props}
       key="root"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "root",
         scope: "TVfnsEurhN",
-        variantPropTypes: [],
+        activeVariants: activeVariants,
       }}
     >
       {(getStyle) => (
@@ -41,13 +64,13 @@ export default function IconButton(props) {
           className={"__visly_reset __visly_scope_TVfnsEurhN_UQGJpGfRHE"}
           key={"UQGJpGfRHE"}
           useMask={getStyle("UQGJpGfRHE", "useMask")}
-          src={
-            exists(props.icon)
-              ? props.icon
-              : require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg")
-          }
+          src={exists(props.icon) ? props.icon : getStyle("UQGJpGfRHE", "src")}
         />
       )}
     </ButtonRoot>
   );
 }
+
+IconButton.__variants = [];
+
+export default IconButton;

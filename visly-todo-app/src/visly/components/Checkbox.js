@@ -3,10 +3,14 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
+import "./Checkbox.css";
+import React, { createContext, useContext } from "react";
+import {
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import { IconPrimitive } from "./_internal_primitives";
 import { CheckboxRoot } from "./_internal_checkbox";
-import "./Checkbox.css";
 
 const styles = [
   {
@@ -24,25 +28,55 @@ const styles = [
   {
     type: "boolean",
     propName: "checked",
+    layers: {
+      checkmark: {
+        none: {
+          useMask: true,
+        },
+      },
+    },
+  },
+];
+
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+  {
+    type: "boolean",
+    propName: "checked",
     layers: {},
   },
 ];
 
-export default function Checkbox(props) {
+const variantPropTypes = [
+  {
+    type: "boolean",
+    propName: "checked",
+  },
+];
+
+export const CheckboxContext = createContext(null);
+
+function Checkbox(_props) {
+  const defaults = useContext(CheckboxContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <CheckboxRoot
       {...props}
       key="root"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "root",
         scope: "WELyftQJp5",
-        variantPropTypes: [
-          {
-            type: "boolean",
-            propName: "checked",
-          },
-        ],
+        activeVariants: activeVariants,
       }}
     >
       {(getStyle) => (
@@ -56,3 +90,12 @@ export default function Checkbox(props) {
     </CheckboxRoot>
   );
 }
+
+Checkbox.__variants = [
+  {
+    name: "checked",
+    type: "variant",
+  },
+];
+
+export default Checkbox;

@@ -2,20 +2,20 @@
 /* tslint:disable */
 /* eslint-disable */
 export const arrowDown = require("../assets/c6bc9d44-be23-423b-b21e-2a46b497715b@1x.svg");
-export const arrowRight = require("../assets/03d4c975-6eb4-4936-b715-550ca471fb50@1x.svg");
 export const arrowLeft = require("../assets/1e8b12ac-a30a-4fc0-9f73-d91668b19e7b@1x.svg");
-export const help = require("../assets/a2a2095d-70fd-4699-b4d7-4444d3a37ffb@1x.svg");
+export const arrowRight = require("../assets/03d4c975-6eb4-4936-b715-550ca471fb50@1x.svg");
 export const arrowUp = require("../assets/1c3cf134-847d-4c39-952b-1adfadee70a1@1x.svg");
+export const close = require("../assets/488cb5d7-c47f-4d28-bb4b-68dc0ca54888@1x.svg");
+export const help = require("../assets/a2a2095d-70fd-4699-b4d7-4444d3a37ffb@1x.svg");
 export const info = require("../assets/e70bbf68-106c-4134-9b05-40747df21168@1x.svg");
 export const mail = require("../assets/ddb4f971-e1cd-4719-a639-2484f058c658@1x.svg");
-export const more = require("../assets/76c1193a-5b18-48fd-909a-91c87c2d9af4@1x.svg");
 export const menu = require("../assets/1c9f5244-d8e1-4cf6-b35b-c38d76e56dc9@1x.svg");
+export const more = require("../assets/76c1193a-5b18-48fd-909a-91c87c2d9af4@1x.svg");
+export const plus = require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg");
 export const search = require("../assets/e19d5b73-20f3-47fb-ae50-a07dcf6129a6@1x.svg");
 export const trash = require("../assets/4e3cc665-52b4-471a-b6b5-b8378fdbf2fe@1x.svg");
-export const user = require("../assets/be4457dc-7e13-4ec5-bf0e-6a31b7351216@1x.svg");
-export const close = require("../assets/488cb5d7-c47f-4d28-bb4b-68dc0ca54888@1x.svg");
 export const upload = require("../assets/747aa4b2-4a9c-4576-bfc1-eef45de8d44f@1x.svg");
-export const plus = require("../assets/154f1398-7a56-4c95-bd2d-6f436587fd18@1x.svg");
+export const user = require("../assets/be4457dc-7e13-4ec5-bf0e-6a31b7351216@1x.svg");
 export const vislyCheck = require("../assets/5cd79169-4d72-486a-bd71-20cfa0420bb2@1x.svg");
 export const vislyRadioBorder = require("../assets/d0171f72-9dbe-4e54-b469-a4432d2beca6@1x.svg");
 export const vislyRadioCenter = require("../assets/22ef53ca-3265-49f9-85f5-c00ff038c977@1x.svg");

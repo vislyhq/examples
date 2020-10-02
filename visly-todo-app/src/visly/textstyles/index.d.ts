@@ -8,10 +8,8 @@ export interface TextStyle {
   fontStyle: string;
   lineHeight?: string;
 }
-export const headingLarge: TextStyle;
 export const heading: TextStyle;
+export const headingLarge: TextStyle;
 export const headingSmall: TextStyle;
 export const label: TextStyle;
 export const labelSmall: TextStyle;
-export const vislyLabel: TextStyle;
-export const vislyLabelSmall: TextStyle;

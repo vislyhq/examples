@@ -3,15 +3,19 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
+import "./Page.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import {
   RootPrimitive,
   SpacerPrimitive,
   TextPrimitive,
   ContainerPrimitive,
 } from "./_internal_primitives";
-import "./Page.css";
 
 const styles = [
   {
@@ -26,56 +30,82 @@ const styles = [
   },
 ];
 
-export default function Page(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [];
+
+export const PageContext = createContext(null);
+
+function Page(_props) {
+  const defaults = useContext(PageContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RootPrimitive
       {...props}
       key="TtVRaoP5z1"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "TtVRaoP5z1",
         scope: "QiWhaKESAq",
-        variantPropTypes: [],
+        activeVariants: activeVariants,
       }}
-      addSpacing={false}
     >
-      <ContainerPrimitive
-        className={"__visly_reset __visly_scope_QiWhaKESAq_JP9ihgMFtT"}
-        key={"JP9ihgMFtT"}
-        addSpacing={false}
-      >
+      {(getStyle) => (
         <ContainerPrimitive
-          className={"__visly_reset __visly_scope_QiWhaKESAq_SpUQvirEGw"}
-          key={"SpUQvirEGw"}
+          className={"__visly_reset __visly_scope_QiWhaKESAq_JP9ihgMFtT"}
+          key={"JP9ihgMFtT"}
           addSpacing={false}
         >
-          {
-            <ContainerPrimitive
-              className={"__visly_reset __visly_scope_QiWhaKESAq_VNsgBTjU84"}
-              key={"VNsgBTjU84"}
-              addSpacing={false}
-            >
-              {null}
-            </ContainerPrimitive>
-          }
+          <ContainerPrimitive
+            className={"__visly_reset __visly_scope_QiWhaKESAq_SpUQvirEGw"}
+            key={"SpUQvirEGw"}
+            addSpacing={false}
+          >
+            {
+              <ContainerPrimitive
+                className={"__visly_reset __visly_scope_QiWhaKESAq_VNsgBTjU84"}
+                key={"VNsgBTjU84"}
+                addSpacing={false}
+              >
+                {null}
+              </ContainerPrimitive>
+            }
+          </ContainerPrimitive>
+          <TextPrimitive
+            className={"__visly_reset __visly_scope_QiWhaKESAq_89iXNc216g"}
+            key={"89iXNc216g"}
+            text={
+              exists(props.title) ? props.title : getStyle("89iXNc216g", "text")
+            }
+          />
+          <SpacerPrimitive
+            className={"__visly_reset __visly_scope_QiWhaKESAq_9JNT8h2S8D"}
+            key={"9JNT8h2S8D"}
+          />
+          <ContainerPrimitive
+            key={"T4bdLvJ8PZ"}
+            className={"__visly_reset __visly_scope_QiWhaKESAq_T4bdLvJ8PZ"}
+            addSpacing={false}
+          >
+            {props.children}
+          </ContainerPrimitive>
         </ContainerPrimitive>
-        <TextPrimitive
-          className={"__visly_reset __visly_scope_QiWhaKESAq_89iXNc216g"}
-          key={"89iXNc216g"}
-          text={exists(props.title) ? props.title : "Visly Todo List"}
-        />
-        <SpacerPrimitive
-          className={"__visly_reset __visly_scope_QiWhaKESAq_8SAAvAuvbr"}
-          key={"8SAAvAuvbr"}
-        />
-        <ContainerPrimitive
-          key={"T4bdLvJ8PZ"}
-          className={"__visly_reset __visly_scope_QiWhaKESAq_T4bdLvJ8PZ"}
-          addSpacing={false}
-        >
-          {exists(props.children) ? props.children : null}
-        </ContainerPrimitive>
-      </ContainerPrimitive>
+      )}
     </RootPrimitive>
   );
 }
+
+Page.__variants = [];
+
+export default Page;
