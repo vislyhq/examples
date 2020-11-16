@@ -3,10 +3,14 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
-import { RootPrimitive, ProgressFillPrimitive } from "./_internal_primitives";
 import "./ProgressBar.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
+import { RootPrimitive, ProgressFillPrimitive } from "./_internal_primitives";
 
 const styles = [
   {
@@ -39,30 +43,80 @@ const styles = [
   },
 ];
 
-export default function ProgressBar(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+  {
+    type: "enum",
+    propName: "color",
+    values: [
+      {
+        propValue: "red",
+        layers: {},
+      },
+      {
+        propValue: "yellow",
+        layers: {},
+      },
+      {
+        propValue: "green",
+        layers: {},
+      },
+    ],
+  },
+];
+
+const variantPropTypes = [
+  {
+    type: "enum",
+    propName: "color",
+    propValues: ["red", "yellow", "green"],
+  },
+];
+
+export const ProgressBarContext = createContext(null);
+
+function ProgressBar(_props) {
+  const defaults = useContext(ProgressBarContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <RootPrimitive
       {...props}
       key="root"
+      addSpacing={false}
       internal={{
-        styles,
+        styles: styles,
         layerId: "root",
         scope: "PxaHDZhNKG",
-        variantPropTypes: [
-          {
-            type: "enum",
-            propName: "color",
-            propValues: ["red", "yellow", "green"],
-          },
-        ],
+        activeVariants: activeVariants,
       }}
-      addSpacing={false}
     >
-      <ProgressFillPrimitive
-        className={"__visly_reset __visly_scope_PxaHDZhNKG_fill"}
-        key={"fill"}
-        value={exists(props.value) ? props.value : 0.5}
-      />
+      {(getStyle) => (
+        <ProgressFillPrimitive
+          className={"__visly_reset __visly_scope_PxaHDZhNKG_fill"}
+          key={"fill"}
+          value={
+            exists(props.value) ? props.value : getStyle("fill", "progress")
+          }
+        />
+      )}
     </RootPrimitive>
   );
 }
+
+ProgressBar.__variants = [
+  {
+    name: "color",
+    type: "group",
+    variants: ["red", "yellow", "green"],
+  },
+];
+
+export default ProgressBar;

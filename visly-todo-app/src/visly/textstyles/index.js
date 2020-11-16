@@ -3,19 +3,19 @@
 /* eslint-disable */
 require("./fonts.css");
 
+export const heading = {
+  fontFamily: "Visly Roboto",
+  fontSize: "20px",
+  fontWeight: 400,
+  fontStyle: "normal",
+  lineHeight: "26px",
+};
 export const headingLarge = {
   fontFamily: "Visly Roboto",
   fontSize: "32px",
   fontWeight: 700,
   fontStyle: "normal",
   lineHeight: "48px",
-};
-export const heading = {
-  fontFamily: "Visly Roboto",
-  fontSize: "18px",
-  fontWeight: 700,
-  fontStyle: "normal",
-  lineHeight: "26px",
 };
 export const headingSmall = {
   fontFamily: "Visly Roboto",
@@ -32,20 +32,6 @@ export const label = {
   lineHeight: "20px",
 };
 export const labelSmall = {
-  fontFamily: "Visly Roboto",
-  fontSize: "12px",
-  fontWeight: 400,
-  fontStyle: "normal",
-  lineHeight: "16px",
-};
-export const vislyLabel = {
-  fontFamily: "Visly Roboto",
-  fontSize: "14px",
-  fontWeight: 400,
-  fontStyle: "normal",
-  lineHeight: "20px",
-};
-export const vislyLabelSmall = {
   fontFamily: "Visly Roboto",
   fontSize: "12px",
   fontWeight: 400,

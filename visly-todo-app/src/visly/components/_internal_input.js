@@ -2,21 +2,31 @@
 /* tslint:disable */
 /* eslint-disable */
 import React, { createContext, useContext, useRef } from "react";
-import {
-  exists,
-  useRootProps,
-  useEventHandlers,
-  InteractionState,
-  combineRef,
-  renderChildren,
-} from "./_internal_utils";
+import { exists, combineRef, renderChildren, noop } from "./_internal_utils";
+import { useFocus, mergeProps } from "@visly/core";
+import { usePrimitive } from "./_internal_usePrimitive";
 const Context = createContext(null);
 export function Root(props) {
   const ref = useRef();
-  const { state, handlers } = useEventHandlers({
+  const focusDelegateRef = useRef(null);
+  const {
+    style,
+    testId,
+    innerRef,
+    values,
+    vislyProps,
+    isDisabled,
+  } = usePrimitive({
     ref,
-    ...props,
+    props,
   });
+  const delegateFocus = {
+    onMouseDownCapture: () => {
+      if (exists(focusDelegateRef)) {
+        focusDelegateRef.current.focus();
+      }
+    },
+  };
 
   const onChange = (e) => {
     if (exists(props.onChange)) {
@@ -24,92 +34,53 @@ export function Root(props) {
     }
   };
 
-  const {
-    style,
-    injectedProps,
-    className,
-    tabIndex,
-    testId,
-    innerRef,
-    role,
-    values,
-  } = useRootProps(props, state);
   return (
-    <div
-      tabIndex={tabIndex}
-      ref={combineRef(innerRef, ref)}
-      role={role}
+    <label
+      ref={combineRef(props.measureRef, combineRef(innerRef, ref))}
       data-testid={testId}
-      {...handlers}
-      {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
-      className={className}
+      {...mergeProps(vislyProps, delegateFocus)}
+      onFocus={noop}
+      onBlur={noop}
       style={style}
     >
       <Context.Provider
         value={{
-          inputRef: props.inputRef,
-          onFocus: handlers.onFocus,
-          onBlur: handlers.onBlur,
+          inputRef: combineRef(props.inputRef, focusDelegateRef),
+          onFocus: vislyProps.onFocus,
+          onBlur: vislyProps.onBlur,
           onChange,
-          injectedProps,
           value: props.value,
-          disabled: state === InteractionState.Disabled,
+          disabled: isDisabled,
         }}
       >
         {renderChildren(props.children, values)}
       </Context.Provider>
-    </div>
+    </label>
   );
 }
 export function InputPrimitive(props) {
-  const {
+  const { onFocus, onBlur, onChange, inputRef, value, disabled } = useContext(
+    Context
+  );
+  const { focusProps } = useFocus({
     onFocus,
     onBlur,
-    onChange,
-    inputRef,
-    injectedProps,
-    value,
-    disabled,
-  } = useContext(Context);
-  const placeholder =
-    exists(injectedProps) && exists(injectedProps.placeholder)
-      ? injectedProps.placeholder
-      : props.placeholder;
+  });
+  const placeholder = props.placeholder;
   return (
     <input
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onChange={
-        exists(injectedProps) && exists(injectedProps.onChange)
-          ? injectedProps.onChange
-          : onChange
-      }
-      value={
-        exists(injectedProps) && exists(injectedProps.value)
-          ? injectedProps.value
-          : value
-      }
-      ref={inputRef}
+      type="text"
+      {...focusProps}
+      onChange={onChange}
+      value={value}
+      ref={combineRef(props.measureRef, inputRef)}
       placeholder={placeholder}
       disabled={disabled}
-      readOnly={
-        exists(injectedProps)
-          ? injectedProps.deepDisablePointerEvents
-          : undefined
-      }
       className={props.className}
       style={{
-        borderWidth: "none",
-        borderStyle: "none",
-        borderColor: "none",
         borderImage: "none",
         outline: "none",
         background: "none",
-        ...(exists(injectedProps) && injectedProps.deepDisablePointerEvents
-          ? {
-              pointerEvents: "none",
-            }
-          : {}),
         ...(disabled
           ? {
               cursor: "not-allowed",

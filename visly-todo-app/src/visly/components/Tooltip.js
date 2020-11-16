@@ -3,19 +3,23 @@
 /* eslint-disable */
 import "../textstyles/fonts.css";
 import "./reset.css";
-import React from "react";
-import { exists } from "./_internal_utils";
+import "./Tooltip.css";
+import React, { createContext, useContext } from "react";
+import {
+  exists,
+  findSetVariantProps,
+  makeCompositeDefaultProps,
+} from "./_internal_utils";
 import { TextPrimitive } from "./_internal_primitives";
 import { TooltipRoot } from "./_internal_tooltip";
-import "./Tooltip.css";
 
 const styles = [
   {
     type: "default",
     layers: {
-      TTEMhM4fuL: {
+      "tooltip-root": {
         none: {
-          arrowColor: "rgba(0,0,0,1)",
+          arrowColor: "rgba(80,80,80,1)",
         },
       },
       "tooltip-text": {
@@ -27,26 +31,50 @@ const styles = [
   },
 ];
 
-export default function Tooltip(props) {
+const defaultPropValues = [
+  {
+    type: "default",
+    layers: {},
+  },
+];
+
+const variantPropTypes = [];
+
+export const TooltipContext = createContext(null);
+
+function Tooltip(_props) {
+  const defaults = useContext(TooltipContext);
+  const props = { ...defaults, ..._props };
+  const activeVariants = findSetVariantProps(variantPropTypes, props);
+  const getCompositeDefaultProps = makeCompositeDefaultProps(
+    defaultPropValues,
+    activeVariants
+  );
   return (
     <TooltipRoot
       {...props}
-      key="TTEMhM4fuL"
+      key="tooltip-root"
       internal={{
         styles,
-        layerId: "TTEMhM4fuL",
+        layerId: "tooltip-root",
         scope: "CV7khtZtKf",
-        variantPropTypes: [],
+        activeVariants,
       }}
-      internalChildren={
+      internalChildren={(getStyle) => (
         <TextPrimitive
           className={"__visly_reset __visly_scope_CV7khtZtKf_tooltip-text"}
           key={"tooltip-text"}
-          text={exists(props.text) ? props.text : "Tooltip"}
+          text={
+            exists(props.text) ? props.text : getStyle("tooltip-text", "text")
+          }
         />
-      }
+      )}
     >
       {props.children}
     </TooltipRoot>
   );
 }
+
+Tooltip.__variants = [];
+
+export default Tooltip;

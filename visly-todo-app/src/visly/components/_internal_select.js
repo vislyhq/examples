@@ -6,378 +6,321 @@ import React, {
   useContext,
   useRef,
   useState,
-  useEffect,
-  useCallback,
+  useLayoutEffect,
 } from "react";
-import { createPortal } from "react-dom";
 import {
-  useEventHandlers,
-  combineRef,
-  useRootProps,
-  exists,
-  InteractionState,
-  useRect,
-  noop,
-  renderChildren,
-} from "./_internal_utils";
-import { Popover, Alignment } from "./_internal_popover";
-import { Gravity } from "./_internal_tooltip";
-import { mergeHotkeys, useHotkey } from "./_internal_utils_hotkeys";
+  mergeProps,
+  HiddenSelect,
+  useSelectState,
+  useSelect,
+  useButton,
+  useListBox,
+  useOption,
+  DismissButton,
+  useFocusRing,
+} from "@visly/core";
+import { combineRef, exists, renderChildren } from "./_internal_utils";
+import { usePrimitive } from "./_internal_usePrimitive";
+import { Popover } from "./_internal_popover";
 import {
-  DescendantsProvider,
-  useDescendant,
-} from "./_internal_utils_descendants";
-import { useSpacing } from "./_internal_component_utils";
-const SelectContext = createContext(null);
-export function SelectOptionContainer(props) {
+  CollectionRoot,
+  proxy,
+  CollectionItemProxy,
+  ItemContext,
+} from "./_internal_collection";
+export const SelectContext = createContext({
+  triggerProps: {},
+  triggerRef: null,
+  buttonStyles: {},
+  testId: "",
+  vislyProps: {},
+  menuProps: {},
+  state: null,
+  renderInline: false,
+  rootClassName: "",
+  triggerMeasureRef: null,
+});
+
+function SelectButtonImpl(props) {
   const {
-    isOpen,
-    setIsOpen,
-    targetRect,
-    rootClassName,
-    focusedOption,
-    menuRef,
+    triggerRef,
+    triggerMeasureRef,
+    vislyProps,
+    testId,
+    buttonStyles,
+    triggerProps,
   } = useContext(SelectContext);
-  const ref = useRef(null);
-  useEffect(() => {
-    if (exists(ref.current)) {
-      ref.current.focus();
-    }
-  }, [ref.current]);
-  const children = useSpacing(props.addSpacing, props.children);
-  return isOpen
-    ? createPortal(
-        <Popover
-          targetRect={targetRect}
-          popover={
-            <div key={props.innerKey} className={rootClassName}>
-              {exists(props.cssStyles) ? (
-                <style
-                  style={{
-                    display: "none",
-                  }}
-                >
-                  {props.cssStyles}
-                </style>
-              ) : null}
-              <div
-                ref={combineRef(ref, menuRef)}
-                role="listbox"
-                aria-activedescendant={`option-${focusedOption}`}
-                tabIndex={-1}
-                className={props.className}
-                style={{
-                  overflow: "auto",
-                }}
-                onBlur={() => setIsOpen(false)}
-              >
-                {children}
-              </div>
-            </div>
-          }
-          position={{
-            gravity: Gravity.Bottom,
-            align: Alignment.Start,
-            gravityOffset: 10,
-            alignOffset: 0,
-          }}
-          onClose={() => setIsOpen(false)}
-        />,
-        document.body
-      )
-    : null;
-}
-export function SelectButton(props) {
-  const { isOpen, setIsOpen, buttonRef, disabled } = useContext(SelectContext);
+
+  const _triggerProps = mergeProps(triggerProps, {
+    onKeyDown: (e) => {
+      if (e.key === "Escape") {
+        e.continuePropagation();
+      }
+    },
+  });
+
+  const { buttonProps } = useButton(_triggerProps, triggerRef);
   return (
     <button
-      ref={buttonRef}
+      {...mergeProps(buttonProps, vislyProps)}
+      data-testid={testId}
+      ref={combineRef(
+        combineRef(props.measureRef, triggerMeasureRef),
+        triggerRef
+      )}
       className={props.className}
-      aria-haspopup="listbox"
-      aria-expanded={isOpen || undefined}
-      onClick={disabled ? noop : () => setIsOpen(true)}
+      style={buttonStyles}
     >
       {props.children}
     </button>
   );
 }
-export function SelectRoot(props) {
-  const ref = useRef();
-  const { selected, onSelect } = props;
-  const { state, handlers } = useEventHandlers({
-    ref,
-    ...props,
-  });
+
+function SelectOptionContainerImpl(props) {
+  const { state, renderInline } = useContext(SelectContext);
+  return state.isOpen || renderInline ? (
+    <_SelectOptionContainer {...props} />
+  ) : null;
+}
+
+function _SelectOptionContainer(props) {
   const {
-    style,
-    injectedProps,
-    className,
-    tabIndex,
-    testId,
-    innerRef,
-    role,
-    values,
-  } = useRootProps(props, state);
-  const noSelectStyles = {
-    userSelect: "none",
-    WebkitUserSelect: "none",
-    KhtmlUserSelect: "none",
-    MozUserSelect: "none",
-  };
-  const buttonRef = useRef(null);
-  const menuRef = useRef(null);
-  const targetRect = useRect(buttonRef, true);
-  const menuRect = useRect(menuRef, true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useState([]);
-  const [focusedOption, setFocusedOption] = useState(0);
-  const disabled = state === InteractionState.Disabled;
-  const selectAndClose = useCallback(
-    (value) => {
-      if (exists(onSelect)) {
-        onSelect(value);
-      }
-
-      setIsOpen(false);
-      const item = items.find((d) => d.value === value);
-      setFocusedOption(exists(item) ? item.index : null);
-      buttonRef.current.focus();
+    menuProps,
+    state,
+    renderInline,
+    triggerRef,
+    rootClassName,
+  } = useContext(SelectContext);
+  const ref = useRef(null);
+  const { listBoxProps } = useListBox(
+    {
+      children: [],
+      autoFocus: "first",
+      disallowEmptySelection: true,
+      "aria-label": exists(state.selectedKey) ? state.selectedKey : "none",
+      id: menuProps.id,
     },
-    [items, onSelect]
+    state,
+    ref
   );
-  const focusPrevious = useCallback(() => {
-    if (!isOpen) {
-      setIsOpen(true);
-    } else {
-      setFocusedOption((cur) => {
-        if (!exists(cur)) {
-          return null;
-        }
-
-        let newItem = items[cur];
-        let newIdx = cur;
-
-        while ((newIdx === cur || newItem.disabled) && newIdx !== 0) {
-          newItem = items[--newIdx];
-        }
-
-        return newItem.disabled ? cur : newIdx;
-      });
+  const gravityOffset = 10;
+  const [buttonWidth, setButtonWidth] = useState(null);
+  useLayoutEffect(() => {
+    if (exists(triggerRef)) {
+      const width = triggerRef.current.offsetWidth;
+      setButtonWidth(width);
     }
-  }, [isOpen, items]);
-  const focusNext = useCallback(() => {
-    if (!isOpen) {
-      setIsOpen(true);
-    } else {
-      setFocusedOption((cur) => {
-        if (!exists(cur)) {
-          return null;
-        }
+  }, [triggerRef, state.selectedKey]);
 
-        let newItem = items[cur];
-        let newIdx = cur;
-
-        while (
-          (newIdx === cur || newItem.disabled) &&
-          newIdx !== items.length - 1
-        ) {
-          newItem = items[++newIdx];
-        }
-
-        return newItem.disabled ? cur : newIdx;
-      });
-    }
-  }, [isOpen, items]);
-  const selectItem = useCallback(() => {
-    if (!isOpen) {
-      setIsOpen(true);
-    } else {
-      const item = items.find((d) => d.index === focusedOption);
-      selectAndClose(item.value);
-    }
-  }, [items, focusedOption, isOpen, selectAndClose]);
-  const hotkeys = mergeHotkeys([
-    useHotkey(
-      {
-        key: "arrowup",
-        allowInput: true,
-        disabled,
-      },
-      focusPrevious
-    ),
-    useHotkey(
-      {
-        key: "arrowdown",
-        allowInput: true,
-        disabled,
-      },
-      focusNext
-    ),
-    useHotkey(
-      {
-        key: "enter",
-        allowInput: true,
-        disabled,
-      },
-      selectItem
-    ),
-    useHotkey(
-      {
-        key: "escape",
-        allowInput: true,
-        disabled,
-      },
-      () => setIsOpen(false)
-    ),
-  ]);
-
-  const onKeyUp = (e) => {
-    if (exists(handlers.onKeyUp)) {
-      handlers.onKeyUp(e);
-    }
-
-    hotkeys.onKeyUp(e);
-  };
-
-  const onKeyDown = (e) => {
-    if (exists(handlers.onKeyDown)) {
-      handlers.onKeyDown(e);
-    }
-
-    hotkeys.onKeyDown(e);
-  };
-
-  useEffect(() => {
-    if (exists(selected)) {
-      const selectedDescendant = items.find((d) => d.value === selected);
-
-      if (exists(selectedDescendant)) {
-        setFocusedOption(selectedDescendant.index);
-      }
-    }
-  }, [items, selected]);
-  const delegateFocusToButton = useCallback(
-    (e) => {
-      if (exists(buttonRef.current) && !isOpen) {
-        buttonRef.current.focus();
-      }
-
-      if (exists(handlers.onFocus)) {
-        handlers.onFocus(e);
-      }
-    },
-    [handlers, isOpen]
-  );
-  return (
-    <div
-      tabIndex={exists(tabIndex) ? tabIndex : 0}
-      ref={combineRef(innerRef, ref)}
-      role={role}
-      data-testid={testId}
-      {...handlers}
-      onFocus={disabled ? noop : delegateFocusToButton}
-      onKeyUp={onKeyUp}
-      onKeyDown={onKeyDown}
-      {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
-      className={className}
-      style={{ ...noSelectStyles, ...style }}
-    >
-      <DescendantsProvider descendants={items} setDescendants={setItems}>
-        <SelectContext.Provider
+  if (renderInline) {
+    return (
+      <ul
+        ref={combineRef(ref, props.measureRef)}
+        className={props.className}
+        style={{
+          marginTop: gravityOffset,
+        }}
+      >
+        <ItemContext.Provider
           value={{
-            isOpen,
-            setIsOpen,
-            buttonRef,
-            targetRect,
-            rootClassName: className,
-            selected,
-            onSelect: selectAndClose,
-            disabled: state === InteractionState.Disabled,
-            focusedOption,
-            menuRef,
-            menuRect,
-            addSpacing: props.addSpacing,
+            isSelected: false,
+            isFocused: false,
+            key: null,
           }}
         >
-          {renderChildren(props.children, values)}
-        </SelectContext.Provider>
-      </DescendantsProvider>
+          {props.children}
+        </ItemContext.Provider>
+      </ul>
+    );
+  }
+
+  return (
+    <Popover
+      scrollRef={ref}
+      triggerRef={triggerRef}
+      isOpen={state.isOpen}
+      containFocus
+      onShouldClose={state.close}
+      placement="bottom start"
+    >
+      <DismissButton onDismiss={() => state.close()} />
+      <div key={props.innerKey} className={rootClassName}>
+        {exists(props.cssStyles) ? (
+          <style
+            style={{
+              display: "none",
+            }}
+          >
+            {props.cssStyles}
+          </style>
+        ) : null}
+        <ul
+          {...mergeProps(listBoxProps, menuProps)}
+          ref={combineRef(ref, props.measureRef)}
+          className={props.className}
+          style={{
+            marginTop: gravityOffset,
+            marginBottom: gravityOffset,
+            overflow: "auto",
+            ...(props.useButtonWidth
+              ? {
+                  width: buttonWidth,
+                }
+              : {}),
+          }}
+        >
+          {[...state.collection].map((item) => (
+            <Option key={item.key} item={item} state={state} />
+          ))}
+        </ul>
+      </div>
+      <DismissButton onDismiss={() => state.close()} />
+    </Popover>
+  );
+}
+
+function Option({ item, state }) {
+  const ref = useRef();
+  const isDisabled = state.disabledKeys.has(item.key);
+  const isSelected = state.selectionManager.isSelected(item.key);
+  const { optionProps } = useOption(
+    {
+      key: item.key,
+      isDisabled,
+      isSelected,
+      shouldSelectOnPressUp: true,
+      shouldFocusOnHover: true,
+      "aria-label": item.key,
+    },
+    state,
+    ref
+  );
+  const { focusProps, isFocusVisible } = useFocusRing();
+  return (
+    <li {...mergeProps(optionProps, focusProps)} ref={ref}>
+      <ItemContext.Provider
+        value={{
+          isSelected,
+          isFocused: isFocusVisible,
+          key: item.key,
+        }}
+      >
+        {item.rendered}
+      </ItemContext.Provider>
+    </li>
+  );
+}
+
+export function SelectRootImpl(props) {
+  const ref = useRef(null);
+  const { selected, onSelect, renderInline, items } = props;
+  const { style, testId, values, vislyProps, isDisabled } = usePrimitive({
+    ref,
+    props,
+  });
+  const { className, ...other } = vislyProps;
+  const state = useSelectState({
+    children: items,
+    selectedKey: selected,
+    onSelectionChange: onSelect,
+    disallowEmptySelection: true,
+    shouldFlip: true,
+    label: "Select",
+    isDisabled,
+  });
+  const { triggerProps, menuProps } = useSelect(
+    {
+      children: items,
+      selectedKey: selected,
+      onSelectionChange: onSelect,
+      "aria-label": "Select",
+      shouldFlip: true,
+    },
+    state,
+    ref
+  );
+  triggerProps.isDisabled = isDisabled;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: renderInline ? "flex" : "contents" }}
+    >
+      <HiddenSelect
+        state={state}
+        triggerRef={ref}
+        label="Select"
+        name="Select"
+      />
+      <SelectContext.Provider
+        value={{
+          buttonStyles: style,
+          renderInline,
+          triggerProps,
+          triggerRef: ref,
+          triggerMeasureRef: props.measureRef,
+          vislyProps: other,
+          testId,
+          state,
+          menuProps,
+          rootClassName: className,
+        }}
+      >
+        {renderChildren(props.children, values)}
+      </SelectContext.Provider>
     </div>
   );
 }
-export function SelectOptionRoot(props) {
+
+function SelectOptionRootImpl(props) {
   const ref = useRef();
-  const {
-    disabled,
-    selected,
-    onSelect,
-    focusedOption,
-    menuRect,
-    menuRef,
-  } = useContext(SelectContext);
-  const { state, handlers, setFocused } = useEventHandlers({
+  const { isSelected, isFocused } = useContext(ItemContext) || {};
+  const { style, testId, innerRef, values, vislyProps } = usePrimitive({
+    ignoreFocusHandling: true,
+    isFocusVisible: isFocused,
     ref,
-    ...props,
-    disabled: disabled || props.disabled,
-    onClick: () => onSelect(props.value),
+    props,
+    variants: isSelected
+      ? [
+          {
+            propName: "selected",
+          },
+        ]
+      : [],
   });
-  const itemDisabled = state === InteractionState.Disabled;
-  const index = useDescendant({
-    element: ref.current,
-    value: props.value,
-    disabled: itemDisabled,
-  });
-  const isSelected = selected === props.value;
-  const isFocused = index === focusedOption;
-  const {
-    style,
-    injectedProps,
-    className,
-    tabIndex,
-    testId,
-    innerRef,
-    values,
-  } = useRootProps({ ...props, selected: isSelected }, state);
-  const noSelectStyles = {
-    cursor: "pointer",
-    userSelect: "none",
-    WebkitUserSelect: "none",
-    KhtmlUserSelect: "none",
-    MozUserSelect: "none",
-  };
-  const optionRect = useRect(ref);
-  const maybeScrollIntoView = useCallback(() => {
-    if (optionRect.top - menuRef.current.scrollTop - menuRect.top < 0) {
-      ref.current.scrollIntoView();
-    } else if (
-      menuRect.bottom + menuRef.current.scrollTop - optionRect.bottom <
-      0
-    ) {
-      ref.current.scrollIntoView(false);
-    }
-  }, [menuRef, optionRect, menuRect]);
-  useEffect(() => {
-    if (isFocused) {
-      setFocused(true);
-      maybeScrollIntoView();
-    } else {
-      setFocused(false);
-    }
-  }, [isFocused, maybeScrollIntoView, setFocused]);
   return (
     <div
-      id={`option-${index}`}
-      tabIndex={tabIndex}
-      ref={combineRef(innerRef, ref)}
-      role="option"
-      aria-selected={isSelected}
+      key={props.value}
+      ref={combineRef(props.measureRef, combineRef(innerRef, ref))}
       data-testid={testId}
-      {...handlers}
-      {...(exists(injectedProps.reactProps) ? injectedProps.reactProps : {})}
-      className={className}
-      style={{ ...noSelectStyles, ...style }}
+      {...vislyProps}
+      style={style}
     >
       {renderChildren(props.children, values)}
     </div>
+  );
+}
+
+const ProxyElements = {
+  Button: () => null,
+  OptionContainer: (props) => {
+    return <>{props.children}</>;
+  },
+};
+export const SelectButton = proxy(ProxyElements.Button, SelectButtonImpl);
+export const SelectOptionContainer = proxy(
+  ProxyElements.OptionContainer,
+  SelectOptionContainerImpl
+);
+export const SelectOptionRoot = proxy(
+  CollectionItemProxy,
+  SelectOptionRootImpl
+);
+export function SelectRoot(props) {
+  return (
+    <CollectionRoot
+      {...props}
+      ParentCtor={SelectRootImpl}
+      ItemCtor={SelectOptionRootImpl}
+    />
   );
 }
